@@ -11,12 +11,13 @@ const CreateUser = () => {
         </div>
         <div className="w-full">
           <form className="w-full flex flex-col gap-6" action="">
-            <div className="w-full h-full grid grid-cols-2">
-              <div className="flex flex-col items-start gap-6 border-r border-r-purple-900 pb-4">
+            <div className="w-full h-full grid grid-cols-3 gap-4">
+              <div className="flex flex-col items-start gap-6 pb-4">
                 <InputField
                   label="Username"
                   placeholder="Enter Username"
                   inputType="text"
+                  fullSize={false}
                 />
                 <InputField
                   label="Phone"
@@ -24,6 +25,11 @@ const CreateUser = () => {
                   inputType="text"
                 />
                 <InputField
+                  label="UniquePassword"
+                  placeholder="Unique password"
+                  inputType="password"
+                />
+                {/* <InputField
                   label="Password"
                   placeholder="Enter password"
                   inputType="password"
@@ -35,12 +41,32 @@ const CreateUser = () => {
                 />
                 <InputField
                   label="UniquePassword"
-                  placeholder="Confirm password"
+                  placeholder="Unique password"
+                  inputType="password"
+                /> */}
+              </div>
+              <div className="flex flex-col items-start gap-6 pb-4">
+              <InputField
+                  label="Password"
+                  placeholder="Enter password"
                   inputType="password"
                 />
+                <InputField
+                  label="Confirm password"
+                  placeholder="Confirm password"
+                  inputType="password"
+                  fullSize={false}
+                />
+                
               </div>
               <div className="w-full flex flex-col items-center">
-                <div className="w-[20vw] h-[3vh] border border-gray-700"></div>
+                <div className="w-[20vw] h-[20vh] border border-gray-700 mt-7 rounded-md"></div>
+                <InputField
+                  label=""
+                  placeholder="0001 0001"
+                  inputType="text"
+                  fullSize={true}
+                />
               </div>
             </div>
             <div className="h-12 w-full flex flow-row items-center justify-start">
