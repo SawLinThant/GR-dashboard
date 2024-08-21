@@ -55,7 +55,7 @@ const CustomTable = ({ column, tableData }) => {
 
   return (
     <div className="w-full flex flex-col items-center gap-4">
-      <table className="w-full min-h-[60vh] border border-purple-300">
+      <table className="w-full  border border-purple-300">
         <thead className="w-full h-12 bg-gradient-to-r from-blue-900 to-gray-600 text-white">
           {table.getHeaderGroups().map((headerGroup) => (
             <tr key={headerGroup.id} className="w-full">
