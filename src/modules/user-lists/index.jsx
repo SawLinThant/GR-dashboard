@@ -9,7 +9,7 @@ const UserList = () => {
     const [filter,setFilter] = useState();
     const navigate = useNavigate();
     return(
-        <div className="w-full flex flex-col gap-4">
+        <div className="w-full flex flex-col gap-4 pr-5 pl-5">
             <div className="w-full h-20 flex flex-row items-center justify-between">
                 <div className="flex flex-row items-center gap-4">
                     <input className="w-[15vw] p-2 rounded border border-purple-800" type="text" />

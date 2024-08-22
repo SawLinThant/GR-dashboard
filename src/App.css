@@ -19,6 +19,11 @@ max-width: 1280px; --> */
   filter: drop-shadow(0 0 2em #61dafbaa);
 }
 
+/* #progress-bar-container .nprogress .bar {
+  
+  bottom: 0;
+} */
+
 @keyframes logo-spin {
   from {
     transform: rotate(0deg);

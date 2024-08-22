@@ -60,7 +60,7 @@ const CreateUser = () => {
   };
 
   return (
-    <div className=" w-full h-full relative p-5 flex flex-col items-center justify-center overflow-y-auto">
+    <div className=" mt-8 w-full h-full relative p-5 flex flex-col items-center justify-center overflow-y-auto">
       <div className="min-w-[40rem] border border-gray-500 p-8 flex flex-col gap-12 rounded">
         <div>
           <h3 className="text-left text-2xl text-purple-900 font-semibold">
