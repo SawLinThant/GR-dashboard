@@ -77,8 +77,8 @@ const CreateUser = () => {
               </div>
             </div>
             <div className="h-12 w-full flex flow-row gap-4 items-center justify-start">
-                <button className="text-black transition min-w-24 duration-500 border-purple-900 hover:text-white from-blue-900 to-gray-600 rounded font-light hover:bg-gradient-to-l">Create</button>
-                <button className="text-black transition min-w-24 duration-500 border-purple-900 hover:text-white from-blue-900 to-gray-600 rounded font-light hover:bg-gradient-to-l">Back</button>
+                <button className="text-black bg-gray-200 transition min-w-24 duration-500 border-purple-900 hover:text-white from-blue-900 to-gray-600 rounded font-light hover:bg-gradient-to-l">Create</button>
+                <button className="text-black bg-gray-200 transition min-w-24 duration-500 border-purple-900 hover:text-white from-blue-900 to-gray-600 rounded font-light hover:bg-gradient-to-l">Back</button>
             </div>
           </form>
         </div>

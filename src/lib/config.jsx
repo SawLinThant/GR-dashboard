@@ -6,7 +6,7 @@ export const SidebarRoutes = [
     {
         id: 'user',
         label: 'User',
-        path: 'users',
+        path: 'user',
         icon: <FaUserGroup size={20}/>
     },
     {
