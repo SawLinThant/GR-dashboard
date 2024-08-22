@@ -30,7 +30,7 @@ const CustomFilter = ({ setCategory }) => {
 
     return(
         <div
-      className="relative w-44 h-12 bg-white rounded-md border border-purple-800 flex items-center justify-center text-black text-lg font-sans cursor-pointer transition duration-500 hover:text-gray-800"
+      className="relative w-44 h-11 bg-white rounded-md border border-purple-800 flex items-center justify-center text-black text-lg font-sans cursor-pointer transition duration-500 hover:text-gray-800"
       onClick={toggleDropdown}
       ref={selectRef}
     >
