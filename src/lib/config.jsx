@@ -22,3 +22,18 @@ export const SidebarRoutes = [
         icon: <GrTransaction size={20}/>
     },
 ]
+
+export const customerFilterOptions = [
+    {
+        value: "all",
+        label: "All"
+    },
+    {
+        value: 'disable',
+        label: "Disable"
+    },
+    {
+        value: 'enable',
+        label: "Enable"
+    },
+]

@@ -16,7 +16,7 @@ const CustomTable = ({ column, tableData }) => {
     const end = start + itemsPerPage;
     return tableData.slice(start, end);
   }, [tableData, pagination, itemsPerPage]);
-  console.log(column);
+
   const table = useReactTable({
     columns: column ? column : [],
     getCoreRowModel: getCoreRowModel(),

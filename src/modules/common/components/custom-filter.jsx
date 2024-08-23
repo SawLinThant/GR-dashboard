@@ -1,12 +1,12 @@
 import { useState, useRef } from "react";
 import { FaSortDown } from "react-icons/fa";
 
-const CustomFilter = ({ setCategory }) => {
-    const [filter, setFilter] = useState("");
+const CustomFilter = ({ setOptions, option }) => {
+  const [filter, setFilter] = useState("");
   const [isOpen, setIsOpen] = useState(false);
   const selectRef = useRef(null);
   const handleFilter = (value) => {
-    setCategory(value);
+    setOptions(value);
     setFilter(value);
     setIsOpen(false);
   };
@@ -16,7 +16,7 @@ const CustomFilter = ({ setCategory }) => {
   const options = [
     {
         value: "all",
-        label: "All Category"
+        label: "All"
     },
     {
         value: "pending",
@@ -36,14 +36,14 @@ const CustomFilter = ({ setCategory }) => {
     >
       <div className="flex justify-between items-center w-11/12 h-full text-black transition duration-500">
         <p className="m-0">
-          {options.find((opt) => opt.value === filter)?.label ||
+          {option.find((opt) => opt.value === filter)?.label ||
             "Select Category"}
         </p>
         <FaSortDown />
       </div>
       {isOpen && (
         <div className="absolute top-full left-0 w-full border border-gray-700 border-t-0 mt-1 z-10 rounded-md">
-          {options.map((option) => (
+          {option.map((option) => (
             <div
               key={option.value}
               className="px-2 py-1 bg-white text-black cursor-pointer transition duration-300 hover:bg-purple-900 hover:text-white first:rounded-t-md last:border-b border-green-700 last:rounded-b-md"

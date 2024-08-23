@@ -10,17 +10,46 @@ import toast, { Toaster } from "react-hot-toast";
 const CreateUser = () => {
   const navigate = useNavigate();
   const [uniquePassword, setUniquePassword] = useState();
-  const { register: customerRegister, handleSubmit: createCustomerSubmit } =
+  const { register: customerRegister, handleSubmit: createCustomerSubmit,reset } =
     useForm();
   const [createCustomer, { loading: createCustomerLoading }] =
     useMutation(CREATE_CUSTOMER);
 
-  const handleCreateUser = createCustomerSubmit(async (credentials) => {
-    // if (credentials.password !== credentials.confirm_password) {
-    //   console.log("please confirm password");
-    // }else{
-    //   try {
-    //     const { data } = await createCustomer({
+    const handleCreateUser = createCustomerSubmit(async (credentials) => {
+      if (credentials.password !== credentials.confirm_password) {
+        toast.error("Please confirm password");
+      } else {
+        try {
+           await createCustomer({
+            variables: {
+              name: credentials.name,
+              phone: credentials.phone,
+              email: credentials.email,
+              card_id: credentials.card_id,
+              disabled: false,
+              unique_password: uniquePassword,
+            },
+          });
+          toast.success("Customer created successfully");
+          // if (data && data?.insert_customer_one) {
+          //   toast.success("Customer created successfully");
+          //   reset();
+          //  // navigate("/dashboard"); // Navigate to dashboard on success
+          // } else {
+          //   toast.error("Failed to create customer");
+          // }
+        } catch (err) {
+          toast.error("Error creating customer");
+          console.error("Error creating customer:", err); // Log the error for debugging
+        }
+      }
+    });
+
+    // const handleCreateUser = createCustomerSubmit((credentials) => {
+    //   if (credentials.password !== credentials.confirm_password) {
+    //     toast.error("Please confirm password");
+    //   } else {
+    //     createCustomer({
     //       variables: {
     //         name: credentials.name,
     //         phone: credentials.phone,
@@ -29,19 +58,21 @@ const CreateUser = () => {
     //         disabled: false,
     //         unique_password: uniquePassword,
     //       },
-    //     });
-    //     if (data?.insert_customer_one) {
-    //       console.log("customer created");
-    //     } else {
-    //       console.log("customer creation failed");
-    //     }
-    //   } catch (err) {
-    //     throw new Error("Error creating customer");
+    //     })
+    //       .then(({ data }) => {
+    //         if (data?.insert_customer_one) {
+    //           toast.success("Customer created successfully");
+    //          // navigate("/dashboard"); // Navigate to the dashboard on success
+    //         } else {
+    //           toast.error("Failed to create customer");
+    //         }
+    //       })
+    //       .catch((err) => {
+    //         toast.error("Error creating customer");
+    //         console.error("Error creating customer:", err);
+    //       });
     //   }
-    // }
-  toast.success("toast success")
-   
-  });
+    // });
 
   const [formValues, setFormValues] = useState({
     name: "",

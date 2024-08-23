@@ -10,18 +10,22 @@ import 'nprogress/nprogress.css';
 const Dashboard = () => {
   const location = useLocation();
 
-  useEffect(() => {
-    const loadData = async () => {
-      nProgress.configure({
-           parent: '#progress-bar-container',
-             showSpinner: false
-           });
-      nProgress.start();
-      nProgress.done();
-    };
+  // useEffect(() => {
+  //   const loadData = async () => {
+  //     nProgress.configure({
+  //          parent: '#progress-bar-container',
+  //            showSpinner: false
+  //          });
+  //     nProgress.start();
+  //     nProgress.done();
+  //   };
 
-    loadData();
-  }, [location]);
+  //   loadData();
+  // }, [location]);
+
+  const startProgress = () => nProgress.start();
+  const stopProgress = () => nProgress.done();
+
     return(
         <div className="flex h-screen w-screen">
         <Sidebar />
@@ -41,7 +45,7 @@ const Dashboard = () => {
           </div>
           <div id="progress-bar-container" className="flex-1 mt-[6rem] h-[calc(100% - 6rem)] overflow-y-auto w-full bg-white relative">
             <Routes>
-              <Route path="*" element={<UserList />} />
+              <Route path="*" element={<UserList startProgress={startProgress} stopProgress={stopProgress} />} />
               <Route path="userlists/createuser" element={<CreateUser />} />
             </Routes>
           </div>
