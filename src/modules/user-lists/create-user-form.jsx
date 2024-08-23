@@ -4,6 +4,8 @@ import { useMutation } from "@apollo/client";
 import { CREATE_CUSTOMER } from "../../graphql/mutation/customer-mutation";
 import { useForm } from "react-hook-form";
 import { useState } from "react";
+import LoadingButton from "../common/icon/loading-icon";
+import toast, { Toaster } from "react-hot-toast";
 
 const CreateUser = () => {
   const navigate = useNavigate();
@@ -14,30 +16,30 @@ const CreateUser = () => {
     useMutation(CREATE_CUSTOMER);
 
   const handleCreateUser = createCustomerSubmit(async (credentials) => {
-    if (credentials.password !== credentials.confirm_password) {
-      console.log("please confirm password");
-    }else{
-      try {
-        const { data } = await createCustomer({
-          variables: {
-            name: credentials.name,
-            phone: credentials.phone,
-            email: credentials.email,
-            card_id: credentials.card_id,
-            disabled: false,
-            unique_password: uniquePassword,
-          },
-        });
-        if (data?.insert_customer_one) {
-          console.log("customer created");
-        } else {
-          console.log("customer creation failed");
-        }
-      } catch (err) {
-        throw new Error("Error creating customer");
-      }
-    }
-  
+    // if (credentials.password !== credentials.confirm_password) {
+    //   console.log("please confirm password");
+    // }else{
+    //   try {
+    //     const { data } = await createCustomer({
+    //       variables: {
+    //         name: credentials.name,
+    //         phone: credentials.phone,
+    //         email: credentials.email,
+    //         card_id: credentials.card_id,
+    //         disabled: false,
+    //         unique_password: uniquePassword,
+    //       },
+    //     });
+    //     if (data?.insert_customer_one) {
+    //       console.log("customer created");
+    //     } else {
+    //       console.log("customer creation failed");
+    //     }
+    //   } catch (err) {
+    //     throw new Error("Error creating customer");
+    //   }
+    // }
+  toast.success("toast success")
    
   });
 
@@ -61,6 +63,7 @@ const CreateUser = () => {
 
   return (
     <div className=" mt-8 w-full h-full relative p-5 flex flex-col items-center justify-center overflow-y-auto">
+      <Toaster/>
       <div className="min-w-[40rem] border border-gray-500 p-8 flex flex-col gap-12 rounded">
         <div>
           <h3 className="text-left text-2xl text-purple-900 font-semibold">
@@ -155,9 +158,9 @@ const CreateUser = () => {
             <div className="h-12 w-full flex flow-row gap-4 items-center justify-start">
               <button
                 type="submit"
-                className="bg-gray-200 transition min-w-24 duration-500 border-purple-900 text-white from-blue-900 to-gray-600 rounded font-light bg-gradient-to-l"
+                className="bg-gray-200 flex flex-row items-center justify-center transition min-w-24 duration-500 border-purple-900 text-white from-blue-900 to-gray-600 rounded font-light bg-gradient-to-l"
               >
-                Create
+                {createCustomerLoading?(<LoadingButton size={20}/>):"Create"}
               </button>
               <button
                 type="button"
