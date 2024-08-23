@@ -6,22 +6,23 @@ import CreateUser from "../../modules/user-lists/create-user-form";
 import { useEffect,useState } from "react";
 import nProgress from "nprogress";
 import 'nprogress/nprogress.css';
+import CustomerDetail from "./customerDetail/[customerId]";
 
 const Dashboard = () => {
   const location = useLocation();
 
-  // useEffect(() => {
-  //   const loadData = async () => {
-  //     nProgress.configure({
-  //          parent: '#progress-bar-container',
-  //            showSpinner: false
-  //          });
-  //     nProgress.start();
-  //     nProgress.done();
-  //   };
+  useEffect(() => {
+    const loadData = async () => {
+      nProgress.configure({
+           parent: '#progress-bar-container',
+             showSpinner: true
+           });
+      nProgress.start();
+      nProgress.done();
+    };
 
-  //   loadData();
-  // }, [location]);
+    loadData();
+  }, [location]);
 
   const startProgress = () => nProgress.start();
   const stopProgress = () => nProgress.done();
@@ -45,8 +46,9 @@ const Dashboard = () => {
           </div>
           <div id="progress-bar-container" className="flex-1 mt-[6rem] h-[calc(100% - 6rem)] overflow-y-auto w-full bg-white relative">
             <Routes>
-              <Route path="*" element={<UserList startProgress={startProgress} stopProgress={stopProgress} />} />
-              <Route path="userlists/createuser" element={<CreateUser />} />
+              <Route path="*" element={<UserList/>} />
+              <Route path="customerlists/createcustomer" element={<CreateUser />} />
+              <Route path="customerlists/customerdetail/:customerId" element={<CustomerDetail />} />
             </Routes>
           </div>
         </div>

@@ -9,7 +9,7 @@ import { GET_CUSTOMERS, GET_CUSTOMERS_BY_STATUS } from "../../graphql/query/cust
 import nProgress from "nprogress";
 import { customerFilterOptions } from "../../lib/config";
 
-const UserList = ({ startProgress, stopProgress }) => {
+const UserList = () => {
   const [filter, setFilter] = useState('all');
   const navigate = useNavigate();
   const [getCustomers,{
@@ -24,6 +24,8 @@ const UserList = ({ startProgress, stopProgress }) => {
 
   const [getCustomersByStatus,{data:customerListByStatus,loading:fetchCustomerListByStatus}] = useLazyQuery(GET_CUSTOMERS_BY_STATUS)
   const customerLists = customerList ? customerList.customers : [];
+
+  const column = userColumn(navigate);
   
   useEffect(() => {
     if(filter === '' || filter === 'all'){
@@ -48,13 +50,13 @@ const UserList = ({ startProgress, stopProgress }) => {
         parent: "#progress-bar-container",
         showSpinner: false,
       });
-      startProgress();
+      nProgress.start();
     } else {
-      stopProgress();
+        nProgress.done();
     }
 
     return () => {
-      stopProgress();
+        nProgress.done();
     };
   }, [fetchCustomerList, fetchCustomerError]);
 
@@ -75,14 +77,14 @@ const UserList = ({ startProgress, stopProgress }) => {
           <div className="h-12">
             <button
               className="bg-green-600 hover:border-green-500 text-white duration-500 hover:bg-green-400 hover:text-gray-800"
-              onClick={() => navigate("userlists/createuser")}
+              onClick={() => navigate("customerlists/createcustomer")}
             >
               New
             </button>
           </div>
         </div>
       </div>
-      <CustomTable column={userColumn} tableData={tableData} />
+      <CustomTable column={column} tableData={tableData} />
     </div>
   );
 };

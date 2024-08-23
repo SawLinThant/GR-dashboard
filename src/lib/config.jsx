@@ -4,8 +4,8 @@ import { GrTransaction } from "react-icons/gr";
 
 export const SidebarRoutes = [
     {
-        id: 'user',
-        label: 'User',
+        id: 'customer',
+        label: 'Customer',
         path: 'user',
         icon: <FaUserGroup size={20}/>
     },
