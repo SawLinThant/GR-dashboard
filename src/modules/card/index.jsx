@@ -1,52 +1,52 @@
 import { useEffect, useState } from "react";
 import CustomTable from "../common/components/custom-table";
-import { userColumn } from "../common/components/custom-table/columns";
-import { dummyUserLists } from "../common/components/custom-table/dummydata";
+import {cardColumn } from "../common/components/custom-table/columns";
 import CustomFilter from "../common/components/custom-filter";
 import { useNavigate } from "react-router-dom";
 import { useQuery,useLazyQuery } from "@apollo/client";
-import { GET_CUSTOMERS, GET_CUSTOMERS_BY_STATUS } from "../../graphql/query/customer-query";
+import { GET_CARDS} from "../../graphql/query/card-query";
 import nProgress from "nprogress";
-import { customerFilterOptions } from "../../lib/config";
+import { cardFilterOptions } from "../../lib/config";
+import { GET_CARDS_BY_STATUS } from "../../graphql/query/card-query";
 
-const UserList = () => {
+const CardList = () => {
   const [filter, setFilter] = useState('all');
   const navigate = useNavigate();
-  const [getCustomers,{
-    data: customerList,
-    loading: fetchCustomerList,
-    error: fetchCustomerError,
-  }] = useLazyQuery(GET_CUSTOMERS,{
+  const [getCards,{
+    data: cardList,
+    loading: fetchCardList,
+    error: fetchCardError,
+  }] = useLazyQuery(GET_CARDS,{
     pollInterval:500
   });
 
   console.log(filter)
 
-  const [getCustomersByStatus,{data:customerListByStatus,loading:fetchCustomerListByStatus}] = useLazyQuery(GET_CUSTOMERS_BY_STATUS)
-  const customerLists = customerList ? customerList.customers : [];
-  console.log(customerLists)
+  const [getCardsByStatus,{data:cardListByStatus,loading:fetchCardListByStatus}] = useLazyQuery(GET_CARDS_BY_STATUS)
+  const cardLists = cardList ? cardList.cards : [];
+  console.log(cardLists)
 
-  const column = userColumn(navigate);
+  const column = cardColumn(navigate);
   
   useEffect(() => {
     if(filter === '' || filter === 'all'){
-        getCustomers();
+        getCards();
     }else if(filter === 'enable'){
-       getCustomersByStatus({
+       getCardsByStatus({
         variables:{disabled:false}
        })
     }
     else{
-        getCustomersByStatus({
+        getCardsByStatus({
             variables:{disabled:true}
            })
     }
-  },[filter,getCustomers,getCustomersByStatus])
+  },[filter,getCards,getCardsByStatus])
 
-  const tableData = filter === '' || filter === 'all' ?(customerList? customerList.customers: []):(customerListByStatus? customerListByStatus.customers:[])
+  const tableData = filter === '' || filter === 'all' ?(cardList? cardList.cards: []):(cardListByStatus? cardListByStatus.cards:[])
 
   useEffect(() => {
-    if (fetchCustomerList) {
+    if (fetchCardList) {
       nProgress.configure({
         parent: "#progress-bar-container",
         showSpinner: false,
@@ -59,7 +59,7 @@ const UserList = () => {
     return () => {
         nProgress.done();
     };
-  }, [fetchCustomerList, fetchCustomerError]);
+  }, [fetchCardList, fetchCardError]);
 
   return (
     <div className="w-full flex flex-col gap-4 pr-5 pl-5">
@@ -73,12 +73,12 @@ const UserList = () => {
         </div>
         <div className="flex flex-row items-center gap-8">
           <div className="">
-            <CustomFilter setOptions={setFilter} option={customerFilterOptions} />
+            <CustomFilter setOptions={setFilter} option={cardFilterOptions} />
           </div>
           <div className="h-12">
             <button
               className="bg-green-600 hover:border-green-500 text-white duration-500 hover:bg-green-400 hover:text-gray-800"
-              onClick={() => navigate("customerlists/createcustomer")}
+              onClick={() => navigate("cardlists/createcard")}
             >
               New
             </button>
@@ -89,4 +89,4 @@ const UserList = () => {
     </div>
   );
 };
-export default UserList;
+export default CardList;

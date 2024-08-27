@@ -7,6 +7,8 @@ import { useEffect,useState } from "react";
 import nProgress from "nprogress";
 import 'nprogress/nprogress.css';
 import CustomerDetail from "./customerDetail/[customerId]";
+import CardList from "../../modules/card";
+import CreateCard from "../../modules/card/create-card-form";
 
 const Dashboard = () => {
   const location = useLocation();
@@ -15,7 +17,7 @@ const Dashboard = () => {
     const loadData = async () => {
       nProgress.configure({
            parent: '#progress-bar-container',
-             showSpinner: true
+             showSpinner: false
            });
       nProgress.start();
       nProgress.done();
@@ -47,8 +49,10 @@ const Dashboard = () => {
           <div id="progress-bar-container" className="flex-1 mt-[6rem] h-[calc(100% - 6rem)] overflow-y-auto w-full bg-white relative">
             <Routes>
               <Route path="*" element={<UserList/>} />
+              <Route path="cards" element={<CardList/>} />
               <Route path="customerlists/createcustomer" element={<CreateUser />} />
-              <Route path="customerlists/customerdetail/:customerId" element={<CustomerDetail />} />
+              <Route path="cards/cardlists/createcard" element={<CreateCard />} />
+              <Route path="customerlists/customerdetail/:customerId" element={<CustomerDetail/>} />
             </Routes>
           </div>
         </div>

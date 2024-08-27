@@ -7,6 +7,7 @@ import { FaArrowLeft } from "react-icons/fa";
 import { UPDATE_CUSTOMER } from "../../../graphql/mutation/customer-mutation";
 import LoadingButton from "../../../modules/common/icon/loading-icon";
 import toast, { Toaster } from "react-hot-toast";
+import clsx from "clsx";
 
 const CustomerDetail = () => {
   const navigate = useNavigate();
@@ -20,39 +21,41 @@ const CustomerDetail = () => {
     variables: { id: customerId },
   });
 
-  const [updateCustomer,{loading:updateCustomerLoading,error:updateCustomerError}] = useMutation(UPDATE_CUSTOMER)
+  const [
+    updateCustomer,
+    { loading: updateCustomerLoading, error: updateCustomerError },
+  ] = useMutation(UPDATE_CUSTOMER);
 
-  const [customerData,setCustomerData] = useState({
-      id:'',
-      name:'',
-      phone:'', 
-      email:'',
-      created_at:'',
-      updated_at:'',
-      card_id:'',
-      disabled:false,
-      unique_password:'',
-  })
+  const [customerData, setCustomerData] = useState({
+    id: "",
+    name: "",
+    phone: "",
+    email: "",
+    created_at: "",
+    updated_at: "",
+    card_id: "",
+    disabled: false,
+    unique_password: "",
+  });
 
   const [isCustomerDisable, setIsCustomerDisable] = useState(false);
 
   const handleRadioChange = (status) => {
     setIsCustomerDisable(status);
     setCustomerData((prevData) => ({
-        ...prevData,
-        disabled:status
-    }))
+      ...prevData,
+      disabled: status,
+    }));
     console.log(status);
     console.log(customerData);
   };
 
   useEffect(() => {
     if (customerById && customerById.customers.length > 0) {
-        setCustomerData(customerById.customers[0])
+      setCustomerData(customerById.customers[0]);
       setIsCustomerDisable(customerById.customers[0].disabled);
     }
   }, [customerById]);
-
 
   useEffect(() => {
     if (fetchCustomerId) {
@@ -79,23 +82,29 @@ const CustomerDetail = () => {
         email: customerData.email,
         card_id: customerData.card_id,
         disabled: customerData.disabled,
-        unique_password: customerData.unique_password
-      }
+        unique_password: customerData.unique_password,
+      },
     })
-    .then(response => {
-      console.log('Customer updated successfully', response.data);
-      toast.success(`${customerData.disabled?"Customer Is Disabled":"Customer is Enabled"}`)
-    })
-    .catch(error => {
-      console.error('Error updating customer', error);
-    });
+      .then((response) => {
+        console.log("Customer updated successfully", response.data);
+        toast.success(
+          `${
+            customerData.disabled
+              ? "Customer Is Disabled"
+              : "Customer is Enabled"
+          }`
+        );
+      })
+      .catch((error) => {
+        console.error("Error updating customer", error);
+      });
   };
 
-  if(fetchCustomerId) return <div></div>
+  //   if(fetchCustomerId) return <div></div>
 
   return (
     <div className="w-full flex flex-col gap-4 pr-5 pl-5">
-        <Toaster/>
+      <Toaster />
       <div className="w-full max-h-[80vh] h-[80vh] flex flex-col justify-end border border-purple-900 rounded mt-6">
         <div className="h-[8vh] w-full border border-gray-400 p-4 flex flex-row bg-gradient-to-r from-blue-900 to-gray-700 items-center justify-start">
           <button
@@ -115,7 +124,9 @@ const CustomerDetail = () => {
                 </div>
                 <div className="w-full grid grid-cols-2">
                   <h3 className="text-left font-bold">Customer Name:</h3>
-                  <p className="text-left">{customerData?customerData.name:''}</p>
+                  <p className="text-left">
+                    {customerData ? customerData.name : ""}
+                  </p>
                 </div>
                 <div className="w-full grid grid-cols-2">
                   <h3 className="text-left font-bold">Phone Number:</h3>
@@ -159,13 +170,25 @@ const CustomerDetail = () => {
             </div>
             <div className="w-full h-14">
               <button
-              onClick={() => handleUpdateCustomer()}
-              className="w-full h-full flex flex-row items-center justify-center text-white bg-gradient-to-r from-blue-900 to-gray-700">
-                {updateCustomerLoading?(<LoadingButton size={20}/>):"Save Changes"}
+                onClick={() => handleUpdateCustomer()}
+                className="w-full h-full flex flex-row items-center justify-center text-white bg-gradient-to-r from-blue-900 to-gray-700"
+              >
+                {updateCustomerLoading ? (
+                  <LoadingButton size={20} />
+                ) : (
+                  "Save Changes"
+                )}
               </button>
             </div>
           </div>
-          <div></div>
+          <div className="w-full h-full p-6 flex flex-col items-center gap-4 overflow-y-auto">
+            <div className="w-full h-full border border-purple-800 flex flex-col relative">
+              <div className={clsx("w-full h-16 flex items-center justify-center bg-gray-100 border-b border-purple-800 absolute z-10")}>
+                <h3 className="font-bold text-lg">Transaction History</h3>
+              </div>
+              <div className="w-full mt-16 h-[calc(100%-4rem)] border"></div>
+            </div>
+          </div>
         </div>
       </div>
     </div>

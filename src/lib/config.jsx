@@ -1,6 +1,7 @@
 import { FaUserGroup } from "react-icons/fa6";
 import { FaShop } from "react-icons/fa6";
 import { GrTransaction } from "react-icons/gr";
+import { CiCreditCard1 } from "react-icons/ci";
 
 export const SidebarRoutes = [
     {
@@ -21,9 +22,30 @@ export const SidebarRoutes = [
         path: 'transaction',
         icon: <GrTransaction size={20}/>
     },
+    {
+        id: 'card',
+        label: 'Card',
+        path: 'cards',
+        icon: <CiCreditCard1 size={20}/>
+    },
 ]
 
 export const customerFilterOptions = [
+    {
+        value: "all",
+        label: "All"
+    },
+    {
+        value: 'disable',
+        label: "Disable"
+    },
+    {
+        value: 'enable',
+        label: "Enable"
+    },
+]
+
+export const cardFilterOptions = [
     {
         value: "all",
         label: "All"
