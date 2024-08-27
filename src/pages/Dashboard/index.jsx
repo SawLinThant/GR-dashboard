@@ -11,6 +11,8 @@ import CardList from "../../modules/card";
 import CreateCard from "../../modules/card/create-card-form";
 import FacilityList from "../../modules/facilities";
 import CreateFacility from "../../modules/facilities/create-facility-form";
+import TerminalList from "../../modules/terminal";
+import CreateTerminal from "../../modules/terminal/create-terminal-form";
 
 const Dashboard = () => {
   const location = useLocation();
@@ -53,9 +55,11 @@ const Dashboard = () => {
               <Route path="*" element={<UserList/>} />
               <Route path="cards" element={<CardList/>} />
               <Route path="facility" element={<FacilityList/>} />
+              <Route path="terminal" element={<TerminalList/>} />
               <Route path="customerlists/createcustomer" element={<CreateUser />} />
               <Route path="cards/cardlists/createcard" element={<CreateCard />} />
               <Route path="facility/facilitylists/createfacility" element={<CreateFacility />} />
+              <Route path="terminal/terminallists/createterminal" element={<CreateTerminal />} />
               <Route path="customerlists/customerdetail/:customerId" element={<CustomerDetail/>} />
             </Routes>
           </div>

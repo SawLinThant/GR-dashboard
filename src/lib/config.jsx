@@ -3,6 +3,7 @@ import { FaShop } from "react-icons/fa6";
 import { GrTransaction } from "react-icons/gr";
 import { CiCreditCard1 } from "react-icons/ci";
 import { GrServicePlay } from "react-icons/gr";
+import { BsFillTerminalFill } from "react-icons/bs";
 
 export const SidebarRoutes = [
     {
@@ -12,10 +13,10 @@ export const SidebarRoutes = [
         icon: <FaUserGroup size={20}/>
     },
     {
-        id: 'merchant',
-        label: 'Merchant',
-        path: 'merchants',
-        icon: <FaShop size={20}/>
+        id: 'terminal',
+        label: 'Terminal',
+        path: 'terminal',
+        icon: <BsFillTerminalFill size={20}/>
     },
     {
         id: 'transaction',
@@ -53,6 +54,21 @@ export const customerFilterOptions = [
 ]
 
 export const cardFilterOptions = [
+    {
+        value: "all",
+        label: "All"
+    },
+    {
+        value: 'disable',
+        label: "Disable"
+    },
+    {
+        value: 'enable',
+        label: "Enable"
+    },
+]
+
+export const terminalFilterOptions = [
     {
         value: "all",
         label: "All"

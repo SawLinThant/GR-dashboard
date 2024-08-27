@@ -54,7 +54,6 @@ const CustomDropdown = ({ options, setOption, initialValue, label }) => {
           top: 100%;
           left: 0;
           width: 100%;
-          
           border-radius: 0.25rem;
           z-index: 10;
           background-color: white;
@@ -75,12 +74,16 @@ const CustomDropdown = ({ options, setOption, initialValue, label }) => {
             border-top:none;
              border-bottom-left-radius: 0.25rem;
              border-bottom-right-radius: 0.25rem;
+             max-height: 7rem;
+             overflow-y:auto;
+             scrollbar-width:0.5px;
           }
         .Dropdown-option {
           padding: 8px;
           background-color: white;
           color: black;
           cursor: pointer;
+          font-size: 12px;
         }
         .Dropdown-option:hover {
           background-color: purple;

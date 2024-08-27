@@ -14,7 +14,7 @@ export const GET_TERMINALS = gql`
 
 export const GET_TERMINAL_BY_ID = gql`
    query getTerminalsById($id: uuid!) {
-    customers(where: { id: { _eq: $id } }) {
+    terminals(where: { id: { _eq: $id } }) {
       id
       terminal_number
       disabled
@@ -23,3 +23,14 @@ export const GET_TERMINAL_BY_ID = gql`
     }
   }
 `
+export const GET_TERMINAL_BY_STATUS = gql`
+  query getTerminalsByStatus($disabled: Boolean!) {
+    terminals(where: { disabled: { _eq: $disabled } }) {
+      id
+      terminal_number
+      disabled
+      created_at
+      updated_at
+    }
+  }
+`;
