@@ -13,6 +13,11 @@ import FacilityList from "../../modules/facilities";
 import CreateFacility from "../../modules/facilities/create-facility-form";
 import TerminalList from "../../modules/terminal";
 import CreateTerminal from "../../modules/terminal/create-terminal-form";
+import FacilityServiceList from "../../modules/facility-services";
+import CreateFacilityService from "../../modules/facility-services/create-facility-service-form";
+import CashinList from "../../modules/cashin-amount";
+import CreateCashinAmount from "../../modules/cashin-amount/create-cashin-form";
+import TerminalDetail from "./terminalDetail/[terminalId]";
 
 const Dashboard = () => {
   const location = useLocation();
@@ -55,12 +60,17 @@ const Dashboard = () => {
               <Route path="*" element={<UserList/>} />
               <Route path="cards" element={<CardList/>} />
               <Route path="facility" element={<FacilityList/>} />
+              <Route path="facilityservice" element={<FacilityServiceList/>} />
+              <Route path="cashinamount" element={<CashinList/>} />
               <Route path="terminal" element={<TerminalList/>} />
               <Route path="customerlists/createcustomer" element={<CreateUser />} />
               <Route path="cards/cardlists/createcard" element={<CreateCard />} />
               <Route path="facility/facilitylists/createfacility" element={<CreateFacility />} />
+              <Route path="cashinamount/cashinlists/createcashin" element={<CreateCashinAmount />} />
+              <Route path="facilityservice/facilityservicelists/createfacilityservice" element={<CreateFacilityService />} />
               <Route path="terminal/terminallists/createterminal" element={<CreateTerminal />} />
               <Route path="customerlists/customerdetail/:customerId" element={<CustomerDetail/>} />
+              <Route path="terminallists/terminaldetail/:terminalId" element={<TerminalDetail/>} />
             </Routes>
           </div>
         </div>

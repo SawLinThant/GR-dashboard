@@ -17,9 +17,15 @@ export const GET_TERMINAL_BY_ID = gql`
     terminals(where: { id: { _eq: $id } }) {
       id
       terminal_number
+      password
+      facility_id
       disabled
       created_at
       updated_at
+      facility{
+        id
+        name
+      }
     }
   }
 `

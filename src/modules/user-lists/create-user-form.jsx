@@ -31,48 +31,12 @@ const CreateUser = () => {
             },
           });
           toast.success("Customer created successfully");
-          // if (data && data?.insert_customer_one) {
-          //   toast.success("Customer created successfully");
-          //   reset();
-          //  // navigate("/dashboard"); // Navigate to dashboard on success
-          // } else {
-          //   toast.error("Failed to create customer");
-          // }
         } catch (err) {
           toast.error("Error creating customer");
           console.error("Error creating customer:", err); // Log the error for debugging
         }
       }
     });
-
-    // const handleCreateUser = createCustomerSubmit((credentials) => {
-    //   if (credentials.password !== credentials.confirm_password) {
-    //     toast.error("Please confirm password");
-    //   } else {
-    //     createCustomer({
-    //       variables: {
-    //         name: credentials.name,
-    //         phone: credentials.phone,
-    //         email: credentials.email,
-    //         card_id: credentials.card_id,
-    //         disabled: false,
-    //         unique_password: uniquePassword,
-    //       },
-    //     })
-    //       .then(({ data }) => {
-    //         if (data?.insert_customer_one) {
-    //           toast.success("Customer created successfully");
-    //          // navigate("/dashboard"); // Navigate to the dashboard on success
-    //         } else {
-    //           toast.error("Failed to create customer");
-    //         }
-    //       })
-    //       .catch((err) => {
-    //         toast.error("Error creating customer");
-    //         console.error("Error creating customer:", err);
-    //       });
-    //   }
-    // });
 
   const [formValues, setFormValues] = useState({
     name: "",

@@ -14,15 +14,15 @@ const InputField = ({
   isLabel=true,
   value, 
   onChange, 
-  setUniquePassword
+  setUniquePassword,
+  disable=false
 }) => {
-  const [inputValue, setInputValue] = useState("");
+ // const [inputValue, setInputValue] = useState("");
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
   const generateRandomValue = () => {
     const randomNumber = Math.floor(100000 + Math.random() * 900000); 
     const randomText = `UP-${randomNumber}`; 
-    //setInputValue(e.target.value)
     setUniquePassword(randomText)
     onChange({ target: { name, value: randomText } });
   };
@@ -59,12 +59,12 @@ const InputField = ({
          "w-3/4": !fullSize,
       })}>
       <input
+      disabled={disable}
         className={clsx("border w-full border-purple-900 p-2 rounded")}
-        //type={inputType}
         type={isPasswordVisible && inputType === "password" ? "text" : inputType}
         value={value}
         placeholder={placeholder}
-       // onChange={onChange}
+        onChange={onChange}
         {...require(name, {
           required: `${name} is required`,
         })}

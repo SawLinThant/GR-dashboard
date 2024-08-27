@@ -87,6 +87,30 @@ export const facilityColumn = (navigate) => [
   }),
 ]
 
+export const facilityServiceColumn = (navigate) => [
+  columnHelper.accessor("name", {
+    cell: (info) => <span>{info.getValue()}</span>,
+    header: () => <span className="">Service</span>,
+  }),
+  columnHelper.accessor("price", {
+    cell: (info) => <span>{info.getValue()}</span>,
+    header: () => <span className="column-head">Price</span>,
+  }),
+  columnHelper.accessor("id", {
+    cell: (info) => (
+      <button
+      className="flex w-full flex-row items-center justify-center gap-2 border-none bg-transparent hover:cursor-pointer text-blue-500"
+        onClick={() => {
+          navigate(`/dashboard/customerlists/customerdetail/${info.getValue()}`);
+        }}
+      >
+       <p>Detail</p> <FaRegEdit />
+      </button>
+    ),
+    header: () => <span className="column-head"></span>,
+  }),
+]
+
 export const terminalColumn = (navigate) => [
   columnHelper.accessor("terminal_number", {
     cell: (info) => <span>{info.getValue()}</span>,
@@ -95,6 +119,26 @@ export const terminalColumn = (navigate) => [
   columnHelper.accessor("disabled", {
     cell: (info) => <span>{info.getValue()?'disabled':'enabled'}</span>,
     header: () => <span className="column-head">Status</span>,
+  }),
+  columnHelper.accessor("id", {
+    cell: (info) => (
+      <button
+      className="flex w-full flex-row items-center justify-center gap-2 border-none bg-transparent hover:cursor-pointer text-blue-500"
+        onClick={() => {
+          navigate(`/dashboard/terminallists/terminaldetail/${info.getValue()}`);
+        }}
+      >
+       <p>Detail</p> <FaRegEdit />
+      </button>
+    ),
+    header: () => <span className="column-head"></span>,
+  }),
+]
+
+export const cashinColumn = (navigate) => [
+  columnHelper.accessor("amount", {
+    cell: (info) => <span>{info.getValue()}</span>,
+    header: () => <span className="">Amount</span>,
   }),
   columnHelper.accessor("id", {
     cell: (info) => (

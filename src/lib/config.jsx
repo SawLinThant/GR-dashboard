@@ -4,6 +4,7 @@ import { GrTransaction } from "react-icons/gr";
 import { CiCreditCard1 } from "react-icons/ci";
 import { GrServicePlay } from "react-icons/gr";
 import { BsFillTerminalFill } from "react-icons/bs";
+import { SiCashapp } from "react-icons/si";
 
 export const SidebarRoutes = [
     {
@@ -35,6 +36,18 @@ export const SidebarRoutes = [
         label: 'Facility',
         path: 'facility',
         icon: <GrServicePlay size={20}/>
+    },
+    {
+        id: 'facilityservice',
+        label: 'Facility Service',
+        path: 'facilityservice',
+        icon: <GrServicePlay size={20}/>
+    },
+    {
+        id: 'cashinamount',
+        label: 'Cash In Amount',
+        path: 'cashinamount',
+        icon: <SiCashapp size={20}/>
     },
 ]
 
