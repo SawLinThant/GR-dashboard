@@ -9,6 +9,8 @@ import 'nprogress/nprogress.css';
 import CustomerDetail from "./customerDetail/[customerId]";
 import CardList from "../../modules/card";
 import CreateCard from "../../modules/card/create-card-form";
+import FacilityList from "../../modules/facilities";
+import CreateFacility from "../../modules/facilities/create-facility-form";
 
 const Dashboard = () => {
   const location = useLocation();
@@ -50,8 +52,10 @@ const Dashboard = () => {
             <Routes>
               <Route path="*" element={<UserList/>} />
               <Route path="cards" element={<CardList/>} />
+              <Route path="facility" element={<FacilityList/>} />
               <Route path="customerlists/createcustomer" element={<CreateUser />} />
               <Route path="cards/cardlists/createcard" element={<CreateCard />} />
+              <Route path="facility/facilitylists/createfacility" element={<CreateFacility />} />
               <Route path="customerlists/customerdetail/:customerId" element={<CustomerDetail/>} />
             </Routes>
           </div>

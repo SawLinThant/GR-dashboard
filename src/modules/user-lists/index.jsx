@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import CustomTable from "../common/components/custom-table";
 import { userColumn } from "../common/components/custom-table/columns";
-import { dummyUserLists } from "../common/components/custom-table/dummydata";
 import CustomFilter from "../common/components/custom-filter";
 import { useNavigate } from "react-router-dom";
 import { useQuery,useLazyQuery } from "@apollo/client";

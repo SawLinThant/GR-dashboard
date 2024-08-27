@@ -2,6 +2,7 @@ import { FaUserGroup } from "react-icons/fa6";
 import { FaShop } from "react-icons/fa6";
 import { GrTransaction } from "react-icons/gr";
 import { CiCreditCard1 } from "react-icons/ci";
+import { GrServicePlay } from "react-icons/gr";
 
 export const SidebarRoutes = [
     {
@@ -27,6 +28,12 @@ export const SidebarRoutes = [
         label: 'Card',
         path: 'cards',
         icon: <CiCreditCard1 size={20}/>
+    },
+    {
+        id: 'facility',
+        label: 'Facility',
+        path: 'facility',
+        icon: <GrServicePlay size={20}/>
     },
 ]
 
