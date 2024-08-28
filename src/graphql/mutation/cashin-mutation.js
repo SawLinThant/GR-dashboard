@@ -34,3 +34,11 @@ export const UPDATE_CASHIN_AMOUNT_BY_ID = gql`
     }
   }
 `;
+
+export const DELETE_CASHIN_AMOUNT_BY_ID = gql`
+  mutation deleteCashinAmountById($id: uuid!) {
+    delete_cashin_amounts_by_pk(id: $id) {
+      id
+    }
+  }
+`;

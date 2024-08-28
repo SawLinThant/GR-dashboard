@@ -2,7 +2,7 @@ import { gql } from "@apollo/client";
 
 export const GET_CUSTOMERS = gql`
   query getCustomers {
-    customers {
+    customers (order_by: { created_at: desc }){
       id
       name
       phone

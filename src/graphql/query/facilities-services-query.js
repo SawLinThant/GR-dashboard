@@ -2,7 +2,7 @@ import { gql } from "@apollo/client";
 
 export const GET_FACILITY_SERIVCES = gql`
   query getFacilityServices {
-    facility_services {
+    facility_services(order_by: { created_at: desc }) {
       id
       name
       price

@@ -2,7 +2,7 @@ import { gql } from "@apollo/client";
 
 export const GET_CASHIN_AMOUNT = gql`
   query getCashinAmount {
-    cashin_amounts {
+    cashin_amounts(order_by: { created_at: desc }) {
       id
       amount
       created_at

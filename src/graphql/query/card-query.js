@@ -2,7 +2,7 @@ import { gql } from "@apollo/client";
 
 export const GET_CARDS = gql`
   query getCards {
-    cards {
+    cards (order_by: { created_at: desc }){
       id
       card_number
       card_password

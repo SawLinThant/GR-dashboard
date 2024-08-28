@@ -2,7 +2,7 @@ import { gql } from "@apollo/client";
 
 export const GET_CARDS_TRANSACTION = gql`
   query getCardTransaction {
-    card_transactions {
+    card_transactions (order_by: { created_at: desc }){
       id
       transaction_number
       amount

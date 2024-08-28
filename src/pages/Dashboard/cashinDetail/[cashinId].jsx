@@ -6,6 +6,7 @@ import clsx from "clsx";
 import toast, { Toaster } from "react-hot-toast";
 import LoadingButton from "../../../modules/common/icon/loading-icon";
 import {
+  DELETE_CASHIN_AMOUNT_BY_ID,
   UPDATE_CASHIN_AMOUNT_BY_ID,
 } from "../../../graphql/mutation/cashin-mutation";
 import { GET_CASHIN_AMOUNT_BY_ID } from "../../../graphql/query/cash-in-query";
@@ -46,6 +47,29 @@ const CashinDetail = () => {
   const [updateCashinById, { loading: updateCashinLoading }] = useMutation(
     UPDATE_CASHIN_AMOUNT_BY_ID
   );
+
+  const [deleteCashinById, { loading: deleteCashinLoading }] = useMutation(
+    DELETE_CASHIN_AMOUNT_BY_ID,
+    {
+      variables: { id: cashinId },
+      onCompleted: () => {
+        toast.success("Deleted successfully");
+        navigate("/dashboard/cashinamount");
+      },
+      onError: (error) => {
+        console.error("Failed to delete cash-in amount:", error);
+        toast.error("Failed to delete cash-in amount.");
+      },
+    }
+  );
+
+  const handleDelete = async () => {
+    try {
+      await deleteCashinById();
+    } catch (error) {
+      console.error("Failed to delete cash-in amount:", error);
+    }
+  };
 
   const handleUpdate = async (e) => {
     e.preventDefault();
@@ -118,7 +142,7 @@ const CashinDetail = () => {
                   </div>
 
                   {isEdit ? (
-                    <div className="w-full h-12 mt-4">
+                    <div className="w-full h-12 mt-6">
                       <button
                         type="submit"
                         className="w-full h-full flex flex-row items-center justify-center text-white bg-gradient-to-r from-blue-900 to-gray-600"
@@ -127,6 +151,23 @@ const CashinDetail = () => {
                           <LoadingButton size={20} />
                         ) : (
                           "Save Changes"
+                        )}
+                      </button>
+                    </div>
+                  ) : (
+                    <div></div>
+                  )}
+                  {isEdit ? (
+                    <div className="w-full h-12">
+                      <button
+                        type="button"
+                        onClick={handleDelete}
+                        className="w-full h-full flex flex-row items-center justify-center text-white bg-gradient-to-r from-blue-900 to-gray-600"
+                      >
+                        {deleteCashinLoading ? (
+                          <LoadingButton size={20} />
+                        ) : (
+                          "Delete"
                         )}
                       </button>
                     </div>

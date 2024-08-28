@@ -2,7 +2,7 @@ import { gql } from "@apollo/client";
 
 export const GET_TERMINALS = gql`
   query getTerminals {
-    terminals {
+    terminals (order_by: { created_at: desc }){
       id
       terminal_number
       disabled
