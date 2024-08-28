@@ -3,12 +3,10 @@ import { gql } from "@apollo/client";
 export const CREATE_CASHIN_AMOUNT = gql`
   mutation createCashinAmount(
     $amount: numeric
-    $updated_at: date
   ) {
     insert_cashin_amounts_one(
       object: {
         amount: $amount
-        updated_at:$updated_at
       }
     ) {
       id
