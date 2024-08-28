@@ -18,6 +18,7 @@ import CreateFacilityService from "../../modules/facility-services/create-facili
 import CashinList from "../../modules/cashin-amount";
 import CreateCashinAmount from "../../modules/cashin-amount/create-cashin-form";
 import TerminalDetail from "./terminalDetail/[terminalId]";
+import CardDetail from "./cardDetail/[cardId]";
 
 const Dashboard = () => {
   const location = useLocation();
@@ -58,7 +59,7 @@ const Dashboard = () => {
           <div id="progress-bar-container" className="flex-1 mt-[6rem] h-[calc(100% - 6rem)] overflow-y-auto w-full bg-white relative">
             <Routes>
               <Route path="*" element={<UserList/>} />
-              <Route path="cards" element={<CardList/>} />
+              <Route path="card" element={<CardList/>} />
               <Route path="facility" element={<FacilityList/>} />
               <Route path="facilityservice" element={<FacilityServiceList/>} />
               <Route path="cashinamount" element={<CashinList/>} />
@@ -71,6 +72,7 @@ const Dashboard = () => {
               <Route path="terminal/terminallists/createterminal" element={<CreateTerminal />} />
               <Route path="customerlists/customerdetail/:customerId" element={<CustomerDetail/>} />
               <Route path="terminallists/terminaldetail/:terminalId" element={<TerminalDetail/>} />
+              <Route path="cardlists/carddetail/:cardId" element={<CardDetail/>} />
             </Routes>
           </div>
         </div>

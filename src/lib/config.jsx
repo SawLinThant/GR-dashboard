@@ -28,7 +28,7 @@ export const SidebarRoutes = [
     {
         id: 'card',
         label: 'Card',
-        path: 'cards',
+        path: 'card',
         icon: <CiCreditCard1 size={20}/>
     },
     {

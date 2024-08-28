@@ -1,194 +1,262 @@
-import { useMutation, useQuery } from "@apollo/client";
 import { useNavigate, useParams } from "react-router-dom";
+import InputField from "../../../modules/common/components/input-field";
+import { useForm } from "react-hook-form";
+import { FaArrowLeft } from "react-icons/fa";
+import { useQuery, useMutation } from "@apollo/client";
 import { GET_CUSTOMERS_BY_ID } from "../../../graphql/query/customer-query";
 import { useEffect, useState } from "react";
-import nProgress from "nprogress";
-import { FaArrowLeft } from "react-icons/fa";
-import { UPDATE_CUSTOMER } from "../../../graphql/mutation/customer-mutation";
-import LoadingButton from "../../../modules/common/icon/loading-icon";
-import toast, { Toaster } from "react-hot-toast";
+import CustomDropdown from "../../../modules/common/components/custom-dropdown";
 import clsx from "clsx";
+import toast, { Toaster } from "react-hot-toast";
+import LoadingButton from "../../../modules/common/icon/loading-icon";
+import { UPDATE_CUSTOMER_BY_ID } from "../../../graphql/mutation/customer-mutation";
 
 const CustomerDetail = () => {
-  const navigate = useNavigate();
   const { customerId } = useParams();
-
-  const {
-    data: customerById,
-    loading: fetchCustomerId,
-    error: fetchCustomerError,
-  } = useQuery(GET_CUSTOMERS_BY_ID, {
-    variables: { id: customerId },
-  });
-
-  const [
-    updateCustomer,
-    { loading: updateCustomerLoading, error: updateCustomerError },
-  ] = useMutation(UPDATE_CUSTOMER);
+  const navigate = useNavigate();
+  const [isEdit, setisEdit] = useState(false);
+  const { data: getCustomerbyId, loading: fetchCustomerbyId } = useQuery(
+    GET_CUSTOMERS_BY_ID,
+    {
+      variables: { id: customerId },
+    }
+  );
 
   const [customerData, setCustomerData] = useState({
-    id: "",
-    name: "",
-    phone: "",
-    email: "",
-    created_at: "",
-    updated_at: "",
-    card_id: "",
-    disabled: false,
-    unique_password: "",
+      id:"",
+      name:"",
+      phone:"",
+      email:"",
+      card_id:"",
+      created_at:"",
+      updated_at:"",
+      disabled:"",
+      unique_password:"",
   });
 
-  const [isCustomerDisable, setIsCustomerDisable] = useState(false);
+  useEffect(() => {
+    if (getCustomerbyId) {
+      setCustomerData(getCustomerbyId.customers[0]);
+    }
+  }, [getCustomerbyId]);
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setCustomerData({
+      ...customerData,
+      [name]: value,
+    });
+  };
 
   const handleRadioChange = (status) => {
-    setIsCustomerDisable(status);
     setCustomerData((prevData) => ({
       ...prevData,
       disabled: status,
     }));
-    console.log(status);
-    console.log(customerData);
   };
 
-  useEffect(() => {
-    if (customerById && customerById.customers.length > 0) {
-      setCustomerData(customerById.customers[0]);
-      setIsCustomerDisable(customerById.customers[0].disabled);
-    }
-  }, [customerById]);
+  const [updateCustomerById, { loading: updateCustomerLoading }] = useMutation(
+    UPDATE_CUSTOMER_BY_ID
+  );
 
-  useEffect(() => {
-    if (fetchCustomerId) {
-      nProgress.configure({
-        parent: "#progress-bar-container",
-        showSpinner: false,
+  const handleUpdate = async (e) => {
+    e.preventDefault();
+    console.log(customerData)
+    try {
+      await updateCustomerById({
+        variables: {
+          id: customerData.id,
+          name: customerData.name,
+          phone: customerData.phone,
+          email: customerData.email,
+          card_id:customerData.card_id,
+          disabled: customerData.disabled,
+        },
       });
-      nProgress.start();
-    } else {
-      nProgress.done();
+      toast.success("Saved changes");
+    } catch (error) {
+      console.error("Failed to update customer:", error);
+      toast.error("Failed to update customer.");
     }
-
-    return () => {
-      nProgress.done();
-    };
-  }, [fetchCustomerId, fetchCustomerError]);
-
-  const handleUpdateCustomer = () => {
-    updateCustomer({
-      variables: {
-        id: customerId,
-        name: customerData.name,
-        phone: customerData.phone,
-        email: customerData.email,
-        card_id: customerData.card_id,
-        disabled: customerData.disabled,
-        unique_password: customerData.unique_password,
-      },
-    })
-      .then((response) => {
-        console.log("Customer updated successfully", response.data);
-        toast.success(
-          `${
-            customerData.disabled
-              ? "Customer Is Disabled"
-              : "Customer is Enabled"
-          }`
-        );
-      })
-      .catch((error) => {
-        console.error("Error updating customer", error);
-      });
   };
 
-  //   if(fetchCustomerId) return <div></div>
+  if (fetchCustomerbyId) return <div></div>;
 
   return (
     <div className="w-full flex flex-col gap-4 pr-5 pl-5">
       <Toaster />
-      <div className="w-full max-h-[80vh] h-[80vh] flex flex-col justify-end border border-purple-900 rounded mt-6">
-        <div className="h-[8vh] w-full border border-gray-400 p-4 flex flex-row bg-gradient-to-r from-blue-900 to-gray-700 items-center justify-start">
-          <button
-            onClick={() => navigate("/dashboard")}
-            className="flex flex-row items-center gap-2 bg-transparent"
-          >
-            <FaArrowLeft color="white" />
-          </button>
-        </div>
-        <div className="grid grid-cols-2 w-full h-[72vh] ">
-          <div className="w-full h-full p-14 border-r border-purple-800 flex flex-col items-center gap-4 overflow-y-auto">
-            <div className="w-full h-auto bg-gray-100 flex flex-col overflow-y-auto">
-              <div className="w-full min-h-[10rem] p-6 border border-gray-400 flex flex-col gap-4">
-                <div className="w-full grid grid-cols-2">
-                  <h3 className="text-left font-bold">Customer Id:</h3>
-                  <p className="text-left">{customerId}</p>
-                </div>
-                <div className="w-full grid grid-cols-2">
-                  <h3 className="text-left font-bold">Customer Name:</h3>
-                  <p className="text-left">
-                    {customerData ? customerData.name : ""}
-                  </p>
-                </div>
-                <div className="w-full grid grid-cols-2">
-                  <h3 className="text-left font-bold">Phone Number:</h3>
-                  <p className="text-left">{customerData.phone}</p>
-                </div>
-                <div className="w-full grid grid-cols-2">
-                  <h3 className="text-left font-bold">Email:</h3>
-                  <p className="text-left">{customerData.email}</p>
-                </div>
-                <div className="w-full grid grid-cols-2">
-                  <h3 className="text-left font-bold">Card No:</h3>
-                  <p className="text-left">{customerData.card_id}</p>
-                </div>
+      <div className="w-full max-h-[80vh] h-[80vh] flex flex-col justify-end border border-purple-900 rounded p-8 mt-6">
+        <div className="w-full h-full overflow-auto rounded grid grid-cols-2">
+          <div className="w-full h-full p-6 border bg-gray-100 rounded">
+            <div className="w-full h-full flex flex-col gap-4">
+              <div className="w-full h-[4rem] flex flex-row items-center p-4 justify-between rounded-t rounded-tr bg-gradient-to-r from-blue-900 to-gray-600">
+                <button
+                  onClick={() => navigate("/dashboard/customer")}
+                  className="bg-transparent"
+                >
+                  <FaArrowLeft size={20} color="white" />
+                </button>
+                <button
+                  onClick={() => setisEdit(!isEdit)}
+                  className="min-h-8 border border-white bg-transparent text-white"
+                >
+                  {isEdit ? "Close" : "Update Info"}
+                </button>
               </div>
-              <div className="w-full min-h-[3rem] p-6 border border-gray-400 flex flex-col gap-4">
-                <div className="w-full h-full flex flex-col gap-4">
-                  <div className="w-full grid grid-cols-2">
-                    <div className="flex flex-row items-center gap-2">
-                      <input
-                        type="radio"
-                        name="customerStatus"
-                        value="enabled"
-                        checked={!isCustomerDisable}
-                        onChange={() => handleRadioChange(false)}
-                      />
-                      <p>Enabled</p>
+              <div className="w-full h-full">
+                <form
+                  className="w-full h-full overflow-y-auto flex flex-col gap-4"
+                  action=""
+                  onSubmit={handleUpdate}
+                >
+                  <div className="w-full h-auto grid grid-cols-2">
+                    <div>
+                      <p className="text-left mt-2 ml-3 font-semibold">
+                        Customer Name:
+                      </p>
                     </div>
-                    <div className="flex flex-row items-center gap-2">
-                      <input
-                        type="radio"
-                        name="customerStatus"
-                        value="disabled"
-                        checked={isCustomerDisable}
-                        onChange={() => handleRadioChange(true)}
-                      />
-                      <p>Disable</p>
-                    </div>
+                    <input
+                      className={clsx(
+                        "w-full border text-black focus:outline-none rounded p-2",
+                        {
+                          "border-purple-800": isEdit,
+                          "border-transparent": !isEdit,
+                        }
+                      )}
+                      type="text"
+                      disabled={!isEdit}
+                      name="name"
+                      value={customerData.name || ""}
+                      placeholder={customerData.name || ""}
+                      onChange={handleInputChange}
+                    />
                   </div>
-                </div>
+                  <div className="w-full h-auto grid grid-cols-2">
+                    <div>
+                      <p className="text-left mt-2 ml-3 font-semibold">
+                        Phone Number:
+                      </p>
+                    </div>
+                    <input
+                      className={clsx(
+                        "w-full border text-black focus:outline-none rounded p-2",
+                        {
+                          "border-purple-800": isEdit,
+                          "border-transparent": !isEdit,
+                        }
+                      )}
+                      type="text"
+                      disabled={!isEdit}
+                      name="phone"
+                      value={customerData.phone || ""}
+                      placeholder={customerData.phone || ""}
+                      onChange={handleInputChange}
+                    />
+                  </div>
+                  <div className="w-full h-auto grid grid-cols-2">
+                    <div>
+                      <p className="text-left mt-2 ml-3 font-semibold">
+                        Email:
+                      </p>
+                    </div>
+                    <input
+                      className={clsx(
+                        "w-full border text-black focus:outline-none rounded p-2",
+                        {
+                          "border-purple-800": isEdit,
+                          "border-transparent": !isEdit,
+                        }
+                      )}
+                      type="email"
+                      disabled={!isEdit}
+                      name="email"
+                      value={customerData.email || ""}
+                      placeholder={customerData.email|| ""}
+                      onChange={handleInputChange}
+                    />
+                  </div>
+                  <div className="w-full h-auto grid grid-cols-2">
+                    <div>
+                      <p className="text-left mt-2 ml-3 font-semibold">
+                        Card Number:
+                      </p>
+                    </div>
+                    <input
+                      className={clsx(
+                        "w-full border text-black focus:outline-none rounded p-2",
+                        {
+                          "border-purple-800": isEdit,
+                          "border-transparent": !isEdit,
+                        }
+                      )}
+                      type="text"
+                      disabled={!isEdit}
+                      name="card_id"
+                      value={customerData.card_id|| ""}
+                      placeholder={customerData.card_id|| ""}
+                      onChange={handleInputChange}
+                    />
+                  </div>
+                  {isEdit ? (
+                    <div className="w-full grid grid-cols-2">
+                      <div className="flex flex-row items-center gap-2">
+                        <input
+                          className="ml-3"
+                          type="radio"
+                          disabled={!isEdit}
+                          name="customerStatus"
+                          value="enabled"
+                          checked={!customerData.disabled}
+                          onChange={() => handleRadioChange(false)}
+                        />
+                        <p>Enabled</p>
+                      </div>
+                      <div className="flex flex-row items-center gap-2">
+                        <input
+                          type="radio"
+                          isabled={!isEdit}
+                          name="customerStatus"
+                          value="disabled"
+                          checked={customerData.disabled}
+                          onChange={() => handleRadioChange(true)}
+                        />
+                        <p>Disable</p>
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="w-full grid grid-cols-2">
+                      <div>
+                        <p className="text-left mt-2 ml-3 font-semibold">Status</p>
+                      </div>
+                      <div>
+                        <p className="text-left mt-2 ml-[0.6rem]">
+                          {customerData.disabled ? "Disabled" : "Active"}
+                        </p>
+                      </div>
+                    </div>
+                  )}
+
+                  {isEdit ? (
+                    <div className="w-full h-12 mt-4">
+                      <button
+                        type="submit"
+                        className="w-full h-full flex flex-row items-center justify-center text-white bg-gradient-to-r from-blue-900 to-gray-600"
+                      >
+                        {updateCustomerLoading ? (
+                          <LoadingButton size={20} />
+                        ) : (
+                          "Save Changes"
+                        )}
+                      </button>
+                    </div>
+                  ) : (
+                    <div></div>
+                  )}
+                </form>
               </div>
             </div>
-            <div className="w-full h-14">
-              <button
-                onClick={() => handleUpdateCustomer()}
-                className="w-full h-full flex flex-row items-center justify-center text-white bg-gradient-to-r from-blue-900 to-gray-700"
-              >
-                {updateCustomerLoading ? (
-                  <LoadingButton size={20} />
-                ) : (
-                  "Save Changes"
-                )}
-              </button>
-            </div>
           </div>
-          <div className="w-full h-full p-6 flex flex-col items-center gap-4 overflow-y-auto">
-            <div className="w-full h-full border border-purple-800 flex flex-col relative">
-              <div className={clsx("w-full h-16 flex items-center justify-center bg-gray-100 border-b border-purple-800 absolute z-10")}>
-                <h3 className="font-bold text-lg">Transaction History</h3>
-              </div>
-              <div className="w-full mt-16 h-[calc(100%-4rem)] border"></div>
-            </div>
-          </div>
+          <div></div>
         </div>
       </div>
     </div>

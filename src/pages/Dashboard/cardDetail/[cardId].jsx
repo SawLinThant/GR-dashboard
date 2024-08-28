@@ -1,116 +1,80 @@
 import { useNavigate, useParams } from "react-router-dom";
-import InputField from "../../../modules/common/components/input-field";
-import { useForm } from "react-hook-form";
 import { FaArrowLeft } from "react-icons/fa";
 import { useQuery, useMutation } from "@apollo/client";
-import { GET_TERMINAL_BY_ID } from "../../../graphql/query/terminal-query";
+import { GET_CARDS_BY_ID } from "../../../graphql/query/card-query";
 import { useEffect, useState } from "react";
-import { GET_FACILITIES } from "../../../graphql/query/facilities-query";
-import CustomDropdown from "../../../modules/common/components/custom-dropdown";
 import clsx from "clsx";
-import { UPDATE_TERMINAL_BY_ID } from "../../../graphql/mutation/terminal-mutation";
 import toast, { Toaster } from "react-hot-toast";
 import LoadingButton from "../../../modules/common/icon/loading-icon";
+import { UPDATE_CARD_BY_ID } from "../../../graphql/mutation/card-mutation";
 
-const TerminalDetail = () => {
-  const { terminalId } = useParams();
+const CardDetail = () => {
+  const { cardId } = useParams();
+  console.log(cardId)
   const navigate = useNavigate();
   const [isEdit, setisEdit] = useState(false);
-  const [facility, setFacility] = useState();
-  const [facilityOptions, setFacilityOptions] = useState();
-  const { register: terminalRegister, handleSubmit: updateTerminal } =
-    useForm();
-  const { data: getTerminalbyId, loading: fetchTerminalbyId } = useQuery(
-    GET_TERMINAL_BY_ID,
+  const { data: getCardbyId, loading: fetchCardbyId } = useQuery(
+    GET_CARDS_BY_ID,
     {
-      variables: { id: terminalId },
+      variables: { id: cardId },
     }
   );
 
-  const [terminalData, setTerminalData] = useState({
-    id: "",
-    terminal_number: "",
-    password: "",
-    facility_id: "",
-    disabled: "",
-    created_at: "",
-    updated_at: "",
-    facility: {
-      id: "",
-      name: "",
-    },
-  });
-
-  const {
-    data: getFacility,
-    loading: fetchFacility,
-    error: fetchFacilityError,
-  } = useQuery(GET_FACILITIES, {
-    pollInterval: 500,
+  const [cardData, setCardData] = useState({
+    id:"",
+    card_number:"",
+    card_password:"",
+    balance:"",
+    disabled:"",
+    updated_at:"",
   });
 
   useEffect(() => {
-    if (getFacility && getFacility.facilities) {
-      setFacilityOptions(getFacility.facilities);
+    if (getCardbyId) {
+      setCardData(getCardbyId.cards[0]);
     }
-  }, [getFacility]);
-
-  useEffect(() => {
-    if (getTerminalbyId) {
-      setTerminalData(getTerminalbyId.terminals[0]);
-    }
-  }, [getTerminalbyId]);
-
-  useEffect(() => {
-    console.log(facility);
-    if (facility) {
-      setTerminalData((prevData) => ({
-        ...prevData,
-        facility_id: facility,
-      }));
-    }
-  }, [facility]);
+  }, [getCardbyId]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setTerminalData({
-      ...terminalData,
+    setCardData({
+      ...cardData,
       [name]: value,
     });
   };
 
   const handleRadioChange = (status) => {
-    setTerminalData((prevData) => ({
+    setCardData((prevData) => ({
       ...prevData,
       disabled: status,
     }));
   };
 
-  const [updateTerminalById, { loading: updateTerminalLoading }] = useMutation(
-    UPDATE_TERMINAL_BY_ID
+  const [updateCardById, { loading: updateCardLoading }] = useMutation(
+    UPDATE_CARD_BY_ID
   );
 
   const handleUpdate = async (e) => {
     e.preventDefault();
-    //console.log(terminalData.facility_id)
+    console.log(cardData)
     try {
-      await updateTerminalById({
+      await updateCardById({
         variables: {
-          id: terminalData.id,
-          terminal_number: terminalData.terminal_number,
-          password: terminalData.password,
-          facility_id: terminalData.facility_id,
-          disabled: terminalData.disabled,
+          id: cardData.id,
+          card_number: cardData.card_number,
+          card_password:cardData.card_password,
+          balance: cardData.balance,
+          disabled: cardData.disabled,
         },
       });
       toast.success("Saved changes");
     } catch (error) {
-      console.error("Failed to update terminal:", error);
-      toast.error("Failed to update terminal.");
+      console.error("Failed to update card:", error);
+      toast.error("Failed to update card.");
     }
   };
 
-  if (fetchTerminalbyId) return <div></div>;
+  if (fetchCardbyId) return <div></div>;
 
   return (
     <div className="w-full flex flex-col gap-4 pr-5 pl-5">
@@ -121,7 +85,7 @@ const TerminalDetail = () => {
             <div className="w-full h-full flex flex-col gap-4">
               <div className="w-full h-[4rem] flex flex-row items-center p-4 justify-between rounded-t rounded-tr bg-gradient-to-r from-blue-900 to-gray-600">
                 <button
-                  onClick={() => navigate("/dashboard/terminal")}
+                  onClick={() => navigate("/dashboard/card")}
                   className="bg-transparent"
                 >
                   <FaArrowLeft size={20} color="white" />
@@ -142,7 +106,7 @@ const TerminalDetail = () => {
                   <div className="w-full h-auto grid grid-cols-2">
                     <div>
                       <p className="text-left mt-2 ml-3 font-semibold">
-                        Terminal Number:
+                        Card Number:
                       </p>
                     </div>
                     <input
@@ -155,47 +119,44 @@ const TerminalDetail = () => {
                       )}
                       type="text"
                       disabled={!isEdit}
-                      name="terminal_number"
-                      value={terminalData.terminal_number || ""}
-                      placeholder={terminalData.terminal_number || ""}
+                      name="card_number"
+                      value={cardData.card_number|| ""}
+                      placeholder={cardData.card_number || ""}
                       onChange={handleInputChange}
                     />
                   </div>
                   <div className="w-full h-auto grid grid-cols-2">
                     <div>
-                      <p className="text-left mt-2 ml-3 font-semibold">Facility:</p>
+                      <p className="text-left mt-2 ml-3 font-semibold">
+                        Balance:
+                      </p>
                     </div>
-                    {isEdit ? (
-                      <div className="w-full mt-0 mb-16 relative">
-                        <CustomDropdown
-                          label=""
-                          isLabel={false}
-                          options={facilityOptions}
-                          setOption={setFacility}
-                        />
-                      </div>
-                    ) : (
-                      <input
-                        className="w-full border text-black border-transparent focus:outline-none rounded p-2"
-                        type="text"
-                        name="id"
-                        disabled={true}
-                        value={terminalData.facility.name || ""}
-                        placeholder={terminalData.facility.name || ""}
-                        onChange={handleInputChange}
-                      />
-                    )}
+                    <input
+                      className={clsx(
+                        "w-full border text-black focus:outline-none rounded p-2",
+                        {
+                          "border-purple-800": isEdit,
+                          "border-transparent": !isEdit,
+                        }
+                      )}
+                      type="text"
+                      disabled={!isEdit}
+                      name="balance"
+                      value={cardData.balance || ""}
+                      placeholder={cardData.balance || ""}
+                      onChange={handleInputChange}
+                    />
                   </div>
                   {isEdit ? (
                     <div className="w-full grid grid-cols-2">
                       <div className="flex flex-row items-center gap-2">
                         <input
-                        className="ml-3"
+                          className="ml-3"
                           type="radio"
                           disabled={!isEdit}
-                          name="customerStatus"
+                          name="cardStatus"
                           value="enabled"
-                          checked={!terminalData.disabled}
+                          checked={!cardData.disabled}
                           onChange={() => handleRadioChange(false)}
                         />
                         <p>Enabled</p>
@@ -204,9 +165,9 @@ const TerminalDetail = () => {
                         <input
                           type="radio"
                           isabled={!isEdit}
-                          name="customerStatus"
+                          name="cardStatus"
                           value="disabled"
-                          checked={terminalData.disabled}
+                          checked={cardData.disabled}
                           onChange={() => handleRadioChange(true)}
                         />
                         <p>Disable</p>
@@ -219,7 +180,7 @@ const TerminalDetail = () => {
                       </div>
                       <div>
                         <p className="text-left mt-2 ml-[0.6rem]">
-                          {terminalData.disabled ? "Disabled" : "Active"}
+                          {cardData.disabled ? "Disabled" : "Active"}
                         </p>
                       </div>
                     </div>
@@ -231,7 +192,7 @@ const TerminalDetail = () => {
                         type="submit"
                         className="w-full h-full flex flex-row items-center justify-center text-white bg-gradient-to-r from-blue-900 to-gray-600"
                       >
-                        {updateTerminalLoading ? (
+                        {updateCardLoading ? (
                           <LoadingButton size={20} />
                         ) : (
                           "Save Changes"
@@ -251,4 +212,4 @@ const TerminalDetail = () => {
     </div>
   );
 };
-export default TerminalDetail;
+export default CardDetail;
