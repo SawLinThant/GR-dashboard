@@ -39,7 +39,11 @@ const CreateTerminal = () => {
   const handleCreateFacility = createTerminalSubmit(async (credentials) => {
     if (credentials.password !== credentials.confirm_password) {
       toast.error("Please confirm password");
-    } else {
+    }
+    else if(!facility || facility.length<0){
+       toast.error("Please choose facility")
+    }
+    else {
       try {
         const hashedPassword = await bcrypt.hash(credentials.password, 10);
         await createTerminal({

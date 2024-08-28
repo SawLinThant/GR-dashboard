@@ -21,7 +21,11 @@ const CreateCard = () => {
   const handleCreateCard = createCardSubmit(async (credentials) => {
     if (credentials.card_password !== credentials.confirm_password) {
       toast.error("Please confirm password");
-    } else {
+    } 
+    else if(credentials.card_number.length>8){
+      toast.error("Invalid Card")
+    }
+    else {
       try {
         const hashedPassword = await bcrypt.hash(credentials.card_password, 10);
         await createCard({
@@ -61,7 +65,7 @@ const CreateCard = () => {
                   label="CardNumber"
                   name="card_number"
                   placeholder="Enter CardNumber"
-                  inputType="text"
+                  inputType="number"
                   fullSize={false}
                   require={cardRegister}
                 />
@@ -100,7 +104,7 @@ const CreateCard = () => {
               </button>
               <button
                 type="button"
-                onClick={() => navigate("/dashboard/cards")}
+                onClick={() => navigate("/dashboard/card")}
                 className=" bg-gray-200 transition min-w-24 duration-500 border-purple-900 text-white from-blue-900 to-gray-600 rounded font-light bg-gradient-to-l"
               >
                 Back

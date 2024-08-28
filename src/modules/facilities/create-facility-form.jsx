@@ -36,21 +36,26 @@ const CreateFacility = () => {
   }, [getEstablishments]);
 
   const handleCreateFacility = createFacilitySubmit(async (credentials) => {
-    try {
-      await createFacility({
-        variables: {
-          name: credentials.name,
-          phone: credentials.phone,
-          email: credentials.email,
-          establishment_id: establishment,
-        },
-      });
-      toast.success("Facility created successfully");
-      reset();
-    } catch (err) {
-      toast.error("Error creating facility");
-      console.error("Error creating facility:", err);
+    if(!establishment || establishment.length<0){
+      toast.error("Please select establishment")
+    }else{
+      try {
+        await createFacility({
+          variables: {
+            name: credentials.name,
+            phone: credentials.phone,
+            email: credentials.email,
+            establishment_id: establishment,
+          },
+        });
+        toast.success("Facility created successfully");
+        reset();
+      } catch (err) {
+        toast.error("Fail to create facility");
+        console.error("Error creating facility:", err);
+      }
     }
+   
   });
 
   return (
@@ -96,7 +101,7 @@ const CreateFacility = () => {
                 />
                 <div className="w-3/4 mt-2 relative">
                   <CustomDropdown
-                    label="Select an option"
+                    label="Select Establishment"
                     options={establishmentOptions}
                     setOption={setEstablishment}
                   />

@@ -37,19 +37,23 @@ const CreateFacilityService = () => {
 
   const handleCreateFacility = createFacilityServiceSubmit(
     async (credentials) => {
-      try {
-        await createFacilityService({
-          variables: {
-            name: credentials.name,
-            price: credentials.price,
-            facility_id: facility,
-          },
-        });
-        toast.success("Service created successfully");
-        reset();
-      } catch (err) {
-        toast.error("Error creating facilityService");
-        console.error("Error creating facilityService:", err);
+      if (!facility || facility.length < 0) {
+        toast.error("Please choose facility");
+      } else {
+        try {
+          await createFacilityService({
+            variables: {
+              name: credentials.name,
+              price: credentials.price,
+              facility_id: facility,
+            },
+          });
+          toast.success("Service created successfully");
+          reset();
+        } catch (err) {
+          toast.error("Error creating facilityService");
+          console.error("Error creating facilityService:", err);
+        }
       }
     }
   );
@@ -90,7 +94,7 @@ const CreateFacilityService = () => {
               <div className="flex flex-col items-start gap-2 pb-4">
                 <div className="w-3/4 mt-2 relative">
                   <CustomDropdown
-                    label="Select an option"
+                    label="Select Facility"
                     options={facilityOptions}
                     setOption={setFacility}
                   />

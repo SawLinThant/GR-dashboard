@@ -144,7 +144,7 @@ const CreateUser = () => {
                 <InputField
                   label=""
                   name="card_id"
-                  placeholder="00010001"
+                  placeholder="001001"
                   inputType="number"
                   fullSize={true}
                   isLabel={false}

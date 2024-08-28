@@ -71,7 +71,7 @@ const Dashboard = () => {
               <Route path="terminal" element={<TerminalList/>} />
               <Route path="cardtransaction" element={<CardTransactionList/>} />
               <Route path="customerlists/createcustomer" element={<CreateUser />} />
-              <Route path="cards/cardlists/createcard" element={<CreateCard />} />
+              <Route path="card/cardlists/createcard" element={<CreateCard />} />
               <Route path="facility/facilitylists/createfacility" element={<CreateFacility />} />
               <Route path="cashinamount/cashinlists/createcashin" element={<CreateCashinAmount />} />
               <Route path="facilityservice/facilityservicelists/createfacilityservice" element={<CreateFacilityService />} />

@@ -75,14 +75,14 @@ const CardList = () => {
           <div className="">
             <CustomFilter setOptions={setFilter} option={cardFilterOptions} />
           </div>
-          {/* <div className="h-12">
+          <div className="h-12">
             <button
               className="bg-green-600 hover:border-green-500 text-white duration-500 hover:bg-green-400 hover:text-gray-800"
               onClick={() => navigate("cardlists/createcard")}
             >
               New
             </button>
-          </div> */}
+          </div>
         </div>
       </div>
       <CustomTable column={column} tableData={tableData} />
