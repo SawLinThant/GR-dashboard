@@ -154,3 +154,31 @@ export const cashinColumn = (navigate) => [
     header: () => <span className="column-head"></span>,
   }),
 ]
+
+export const cardTransactionColumn = (navigate) => [
+  columnHelper.accessor("transaction_number", {
+    cell: (info) => <span>{info.getValue()}</span>,
+    header: () => <span className="">Transaction No</span>,
+  }),
+  columnHelper.accessor("amount", {
+    cell: (info) => <span>{info.getValue()}</span>,
+    header: () => <span className="">Amount</span>,
+  }),
+  columnHelper.accessor("card_transaction_type", {
+    cell: (info) => <span>{info.getValue()}</span>,
+    header: () => <span className="">Type</span>,
+  }),
+  columnHelper.accessor("id", {
+    cell: (info) => (
+      <button
+      className="flex w-full flex-row items-center justify-center gap-2 border-none bg-transparent hover:cursor-pointer text-blue-500"
+        onClick={() => {
+          navigate(`/dashboard/cardtransactionlists/cardtransactiondetail/${info.getValue()}`);
+        }}
+      >
+       <p>Detail</p> <FaRegEdit />
+      </button>
+    ),
+    header: () => <span className="column-head"></span>,
+  }),
+]

@@ -22,7 +22,7 @@ export const SidebarRoutes = [
     {
         id: 'transaction',
         label: 'Transaction',
-        path: 'transaction',
+        path: 'cardtransaction',
         icon: <GrTransaction size={20}/>
     },
     {

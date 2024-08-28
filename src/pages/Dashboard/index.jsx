@@ -22,6 +22,8 @@ import CardDetail from "./cardDetail/[cardId]";
 import CashinDetail from "./cashinDetail/[cashinId]";
 import FacilityDetail from "./facilityDetail/[facilityId]";
 import FacilityServiceDetail from "./facilityServiceDetail/[facilityServiceid]";
+import CardTransactionList from "../../modules/card-transaction";
+import CardTransactionDetail from "./cardTransactionDetail/[cardTransactionId]";
 
 const Dashboard = () => {
   const location = useLocation();
@@ -67,6 +69,7 @@ const Dashboard = () => {
               <Route path="facilityservice" element={<FacilityServiceList/>} />
               <Route path="cashinamount" element={<CashinList/>} />
               <Route path="terminal" element={<TerminalList/>} />
+              <Route path="cardtransaction" element={<CardTransactionList/>} />
               <Route path="customerlists/createcustomer" element={<CreateUser />} />
               <Route path="cards/cardlists/createcard" element={<CreateCard />} />
               <Route path="facility/facilitylists/createfacility" element={<CreateFacility />} />
@@ -79,6 +82,7 @@ const Dashboard = () => {
               <Route path="facilitylists/facilitydetail/:facilityId" element={<FacilityDetail/>} />
               <Route path="facilityservicelists/facilityservicedetail/:facilityServiceId" element={<FacilityServiceDetail/>} />
               <Route path="cardlists/carddetail/:cardId" element={<CardDetail/>} />
+              <Route path="cardtransactionlists/cardtransactiondetail/:cardTransactionId" element={<CardTransactionDetail/>} />
             </Routes>
           </div>
         </div>
