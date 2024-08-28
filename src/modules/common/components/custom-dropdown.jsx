@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import Dropdown from "react-dropdown";
 
-const CustomDropdown = ({ options, setOption, initialValue, label }) => {
+const CustomDropdown = ({ options, setOption, initialValue, label, isLabel=true }) => {
   const [selectedOption, setSelectedOption] = useState();
 
   const transformedData = (options) => {
@@ -57,7 +57,7 @@ const CustomDropdown = ({ options, setOption, initialValue, label }) => {
           border-radius: 0.25rem;
           z-index: 10;
           background-color: white;
-          margin-top:1rem;
+          margin-top:${isLabel?'1rem':'0'};
         }
           .Dropdown-placeholder{
            padding: 0.5rem 0 0.5rem 0.1rem;
