@@ -18,3 +18,24 @@ export const CREATE_FACILITY_SERVICE = gql`
     }
   }
 `;
+
+export const UPDATE_FACILITY_SERVICE = gql`
+  mutation updateFacilityService(
+    $id: uuid!
+    $name: String
+    $price: numeric
+    $facility_id: uuid
+  ) {
+    update_facility_services_by_pk(
+      pk_columns: { id: $id }
+      _set: { name: $name, price: $price, facility_id: $facility_id }
+    ) {
+      id
+      name
+      price
+      facility_id
+      created_at
+      updated_at
+    }
+  }
+`;

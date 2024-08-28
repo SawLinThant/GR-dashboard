@@ -3,37 +3,34 @@ import InputField from "../../../modules/common/components/input-field";
 import { useForm } from "react-hook-form";
 import { FaArrowLeft } from "react-icons/fa";
 import { useQuery, useMutation } from "@apollo/client";
-import { GET_TERMINAL_BY_ID } from "../../../graphql/query/terminal-query";
 import { useEffect, useState } from "react";
 import { GET_FACILITIES } from "../../../graphql/query/facilities-query";
 import CustomDropdown from "../../../modules/common/components/custom-dropdown";
 import clsx from "clsx";
-import { UPDATE_TERMINAL_BY_ID } from "../../../graphql/mutation/terminal-mutation";
 import toast, { Toaster } from "react-hot-toast";
 import LoadingButton from "../../../modules/common/icon/loading-icon";
+import { GET_FACILITY_SERVICE_BY_ID } from "../../../graphql/query/facilities-services-query";
+import { UPDATE_FACILITY_SERVICE } from "../../../graphql/mutation/facility-service-mutation";
 
-const TerminalDetail = () => {
-  const { terminalId } = useParams();
+const FacilityServiceDetail = () => {
+  const { facilityServiceId } = useParams();
   const navigate = useNavigate();
   const [isEdit, setisEdit] = useState(false);
   const [facility, setFacility] = useState();
   const [facilityOptions, setFacilityOptions] = useState();
-  const { register: terminalRegister, handleSubmit: updateTerminal } =
-    useForm();
-  const { data: getTerminalbyId, loading: fetchTerminalbyId } = useQuery(
-    GET_TERMINAL_BY_ID,
+  const { data: getFacilityServicebyId, loading: fetchFacilityServicebyId } = useQuery(
+    GET_FACILITY_SERVICE_BY_ID,
     {
-      variables: { id: terminalId },
+      variables: { id: facilityServiceId },
       pollInterval:500
     }
   );
 
-  const [terminalData, setTerminalData] = useState({
+  const [facilityServiceData, setFacilityServiceData] = useState({
     id: "",
-    terminal_number: "",
-    password: "",
+    name: "",
+    price: "",
     facility_id: "",
-    disabled: "",
     created_at: "",
     updated_at: "",
     facility: {
@@ -41,6 +38,7 @@ const TerminalDetail = () => {
       name: "",
     },
   });
+
 
   const {
     data: getFacility,
@@ -57,15 +55,19 @@ const TerminalDetail = () => {
   }, [getFacility]);
 
   useEffect(() => {
-    if (getTerminalbyId) {
-      setTerminalData(getTerminalbyId.terminals[0]);
+    if (getFacilityServicebyId) {
+      setFacilityServiceData(getFacilityServicebyId.facility_services[0]);
+      console.log(getFacilityServicebyId.facility_services[0])
     }
-  }, [getTerminalbyId]);
+  }, [getFacilityServicebyId]);
+
+ console.log(facilityServiceId)
+  console.log(facilityServiceData)
 
   useEffect(() => {
     console.log(facility);
     if (facility) {
-      setTerminalData((prevData) => ({
+      setFacilityServiceData((prevData) => ({
         ...prevData,
         facility_id: facility,
       }));
@@ -74,44 +76,35 @@ const TerminalDetail = () => {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setTerminalData({
-      ...terminalData,
+    setFacilityServiceData({
+      ...facilityServiceData,
       [name]: value,
     });
   };
 
-  const handleRadioChange = (status) => {
-    setTerminalData((prevData) => ({
-      ...prevData,
-      disabled: status,
-    }));
-  };
-
-  const [updateTerminalById, { loading: updateTerminalLoading }] = useMutation(
-    UPDATE_TERMINAL_BY_ID
+  const [updateFacilityServiceById, { loading: updateFacilityServiceLoading }] = useMutation(
+    UPDATE_FACILITY_SERVICE
   );
 
   const handleUpdate = async (e) => {
     e.preventDefault();
-    //console.log(terminalData.facility_id)
     try {
-      await updateTerminalById({
+      await updateFacilityServiceById({
         variables: {
-          id: terminalData.id,
-          terminal_number: terminalData.terminal_number,
-          password: terminalData.password,
-          facility_id: terminalData.facility_id,
-          disabled: terminalData.disabled,
+          id: facilityServiceData.id,
+          name: facilityServiceData.name,
+          price: facilityServiceData.price,
+          facility_id: facilityServiceData.facility_id,
         },
       });
       toast.success("Saved changes");
     } catch (error) {
-      console.error("Failed to update terminal:", error);
-      toast.error("Failed to update terminal.");
+      console.error("Failed to update facilityService:", error);
+      toast.error("Failed to update facilityService.");
     }
   };
 
-  if (fetchTerminalbyId) return <div></div>;
+  if (fetchFacilityServicebyId) return <div></div>;
 
   return (
     <div className="w-full flex flex-col gap-4 pr-5 pl-5">
@@ -122,7 +115,7 @@ const TerminalDetail = () => {
             <div className="w-full h-full flex flex-col gap-4">
               <div className="w-full h-[4rem] flex flex-row items-center p-4 justify-between rounded-t rounded-tr bg-gradient-to-r from-blue-900 to-gray-600">
                 <button
-                  onClick={() => navigate("/dashboard/terminal")}
+                  onClick={() => navigate("/dashboard/facilityService")}
                   className="bg-transparent"
                 >
                   <FaArrowLeft size={20} color="white" />
@@ -143,7 +136,7 @@ const TerminalDetail = () => {
                   <div className="w-full h-auto grid grid-cols-2">
                     <div>
                       <p className="text-left mt-2 ml-3 font-semibold">
-                        Terminal Number:
+                        Service Name:
                       </p>
                     </div>
                     <input
@@ -156,9 +149,31 @@ const TerminalDetail = () => {
                       )}
                       type="text"
                       disabled={!isEdit}
-                      name="terminal_number"
-                      value={terminalData.terminal_number || ""}
-                      placeholder={terminalData.terminal_number || ""}
+                      name="name"
+                      value={facilityServiceData.name || ""}
+                      placeholder={facilityServiceData.name || ""}
+                      onChange={handleInputChange}
+                    />
+                  </div>
+                  <div className="w-full h-auto grid grid-cols-2">
+                    <div>
+                      <p className="text-left mt-2 ml-3 font-semibold">
+                        Price:
+                      </p>
+                    </div>
+                    <input
+                      className={clsx(
+                        "w-full border text-black focus:outline-none rounded p-2",
+                        {
+                          "border-purple-800": isEdit,
+                          "border-transparent": !isEdit,
+                        }
+                      )}
+                      type="text"
+                      disabled={!isEdit}
+                      name="price"
+                      value={facilityServiceData.price|| ""}
+                      placeholder={facilityServiceData.price || ""}
                       onChange={handleInputChange}
                     />
                   </div>
@@ -181,50 +196,12 @@ const TerminalDetail = () => {
                         type="text"
                         name="id"
                         disabled={true}
-                        value={terminalData.facility.name || ""}
-                        placeholder={terminalData.facility.name || ""}
+                        value={facilityServiceData.facility.name || ""}
+                        placeholder={facilityServiceData.facility.name || ""}
                         onChange={handleInputChange}
                       />
                     )}
                   </div>
-                  {isEdit ? (
-                    <div className="w-full grid grid-cols-2">
-                      <div className="flex flex-row items-center gap-2">
-                        <input
-                        className="ml-3"
-                          type="radio"
-                          disabled={!isEdit}
-                          name="customerStatus"
-                          value="enabled"
-                          checked={!terminalData.disabled}
-                          onChange={() => handleRadioChange(false)}
-                        />
-                        <p>Enabled</p>
-                      </div>
-                      <div className="flex flex-row items-center gap-2">
-                        <input
-                          type="radio"
-                          isabled={!isEdit}
-                          name="customerStatus"
-                          value="disabled"
-                          checked={terminalData.disabled}
-                          onChange={() => handleRadioChange(true)}
-                        />
-                        <p>Disable</p>
-                      </div>
-                    </div>
-                  ) : (
-                    <div className="w-full grid grid-cols-2">
-                      <div>
-                        <p className="text-left mt-2 ml-3 font-semibold">Status</p>
-                      </div>
-                      <div>
-                        <p className="text-left mt-2 ml-[0.6rem]">
-                          {terminalData.disabled ? "Disabled" : "Active"}
-                        </p>
-                      </div>
-                    </div>
-                  )}
 
                   {isEdit ? (
                     <div className="w-full h-12 mt-4">
@@ -232,7 +209,7 @@ const TerminalDetail = () => {
                         type="submit"
                         className="w-full h-full flex flex-row items-center justify-center text-white bg-gradient-to-r from-blue-900 to-gray-600"
                       >
-                        {updateTerminalLoading ? (
+                        {updateFacilityServiceLoading ? (
                           <LoadingButton size={20} />
                         ) : (
                           "Save Changes"
@@ -252,4 +229,4 @@ const TerminalDetail = () => {
     </div>
   );
 };
-export default TerminalDetail;
+export default FacilityServiceDetail;

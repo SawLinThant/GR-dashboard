@@ -12,3 +12,20 @@ export const GET_FACILITY_SERIVCES = gql`
     }
   }
 `;
+
+export const GET_FACILITY_SERVICE_BY_ID = gql`
+  query getFacilityServiceById($id: uuid!) {
+    facility_services(where: { id: { _eq: $id } }) {
+      id
+      name
+      price
+      facility_id
+      created_at
+      updated_at
+      facility {
+        id
+        name
+      }
+    }
+  }
+`;

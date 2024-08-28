@@ -21,6 +21,7 @@ import TerminalDetail from "./terminalDetail/[terminalId]";
 import CardDetail from "./cardDetail/[cardId]";
 import CashinDetail from "./cashinDetail/[cashinId]";
 import FacilityDetail from "./facilityDetail/[facilityId]";
+import FacilityServiceDetail from "./facilityServiceDetail/[facilityServiceid]";
 
 const Dashboard = () => {
   const location = useLocation();
@@ -76,6 +77,7 @@ const Dashboard = () => {
               <Route path="terminallists/terminaldetail/:terminalId" element={<TerminalDetail/>} />
               <Route path="cashinlists/cashindetail/:cashinId" element={<CashinDetail/>} />
               <Route path="facilitylists/facilitydetail/:facilityId" element={<FacilityDetail/>} />
+              <Route path="facilityservicelists/facilityservicedetail/:facilityServiceId" element={<FacilityServiceDetail/>} />
               <Route path="cardlists/carddetail/:cardId" element={<CardDetail/>} />
             </Routes>
           </div>
