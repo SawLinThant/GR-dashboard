@@ -18,7 +18,11 @@ const CreateUser = () => {
     const handleCreateUser = createCustomerSubmit(async (credentials) => {
       if (credentials.password !== credentials.confirm_password) {
         toast.error("Please confirm password");
-      } else {
+      }
+      else if(credentials.card_id.length>8){
+        toast.error("Invalid Card")
+      }
+      else {
         try {
            await createCustomer({
             variables: {
@@ -140,8 +144,8 @@ const CreateUser = () => {
                 <InputField
                   label=""
                   name="card_id"
-                  placeholder="0001 0001"
-                  inputType="text"
+                  placeholder="00010001"
+                  inputType="number"
                   fullSize={true}
                   isLabel={false}
                   require={customerRegister}

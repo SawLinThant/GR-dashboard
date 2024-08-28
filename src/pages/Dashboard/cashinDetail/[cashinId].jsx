@@ -70,8 +70,8 @@ const CashinDetail = () => {
   return (
     <div className="w-full flex flex-col gap-4 pr-5 pl-5">
       <Toaster />
-      <div className="w-full max-h-[80vh] h-[80vh] flex flex-col justify-end border border-purple-900 rounded p-8 mt-6">
-        <div className="w-full h-full overflow-auto rounded grid grid-cols-2">
+      <div className="w-1/2 max-h-[80vh] h-[80vh] flex flex-col justify-end border border-purple-900 rounded p-8 mt-6">
+        <div className="w-full h-full overflow-auto rounded grid grid-cols-1">
           <div className="w-full h-full p-6 border bg-gray-100 rounded">
             <div className="w-full h-full flex flex-col gap-4">
               <div className="w-full h-[4rem] flex flex-row items-center p-4 justify-between rounded-t rounded-tr bg-gradient-to-r from-blue-900 to-gray-600">
@@ -137,7 +137,7 @@ const CashinDetail = () => {
               </div>
             </div>
           </div>
-          <div></div>
+          {/* <div></div> */}
         </div>
       </div>
     </div>
