@@ -13,3 +13,21 @@ export const GET_FACILITIES = gql`
     }
   }
 `;
+
+export const GET_FACILITY_BY_ID = gql`
+  query getFacilityById($id: uuid!) {
+    facilities(where: { id: { _eq: $id } }) {
+      id
+      name
+      phone
+      email
+      created_at
+      updated_at
+      establishment_id
+      establishment{
+        id
+        name
+      }
+    }
+  }
+`;

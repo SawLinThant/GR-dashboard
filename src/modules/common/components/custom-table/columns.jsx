@@ -77,7 +77,7 @@ export const facilityColumn = (navigate) => [
       <button
       className="flex w-full flex-row items-center justify-center gap-2 border-none bg-transparent hover:cursor-pointer text-blue-500"
         onClick={() => {
-          navigate(`/dashboard/customerlists/customerdetail/${info.getValue()}`);
+          navigate(`/dashboard/facilitylists/facilitydetail/${info.getValue()}`);
         }}
       >
        <p>Detail</p> <FaRegEdit />

@@ -24,3 +24,32 @@ export const CREATE_FACILITY = gql`
         }
     }
 ` ;
+
+export const UPDATE_FACILITY_BY_ID = gql`
+  mutation updateFacilityById(
+    $id: uuid!
+    $name: String
+    $phone: String
+    $email: String
+    $establishment_id: uuid
+  ) {
+    update_facilities(
+      where: { id: { _eq: $id } },
+      _set: {
+        name: $name
+        phone: $phone
+        email: $email
+        establishment_id: $establishment_id
+      }
+    ) {
+      returning {
+        id
+        name
+        phone
+        email
+        updated_at
+        establishment_id
+      }
+    }
+  }
+`;
