@@ -10,3 +10,14 @@ export const GET_CASHIN_AMOUNT = gql`
     }
   }
 `;
+
+export const GET_CASHIN_AMOUNT_BY_ID = gql`
+  query getCashinAmount($id: uuid!) {
+    cashin_amounts(where: { id: { _eq: $id } }) {
+      id
+      amount
+      created_at
+      updated_at
+    }
+  }
+`;

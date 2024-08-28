@@ -19,6 +19,7 @@ import CashinList from "../../modules/cashin-amount";
 import CreateCashinAmount from "../../modules/cashin-amount/create-cashin-form";
 import TerminalDetail from "./terminalDetail/[terminalId]";
 import CardDetail from "./cardDetail/[cardId]";
+import CashinDetail from "./cashinDetail/[cashinId]";
 
 const Dashboard = () => {
   const location = useLocation();
@@ -72,6 +73,7 @@ const Dashboard = () => {
               <Route path="terminal/terminallists/createterminal" element={<CreateTerminal />} />
               <Route path="customerlists/customerdetail/:customerId" element={<CustomerDetail/>} />
               <Route path="terminallists/terminaldetail/:terminalId" element={<TerminalDetail/>} />
+              <Route path="cashinlists/cashindetail/:cashinId" element={<CashinDetail/>} />
               <Route path="cardlists/carddetail/:cardId" element={<CardDetail/>} />
             </Routes>
           </div>
