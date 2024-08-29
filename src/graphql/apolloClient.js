@@ -5,9 +5,6 @@ import { setContext } from "@apollo/client/link/context";
 const httpLink = createHttpLink({
     uri: import.meta.env.VITE_HASURA_GRAPHQL_ENDPOINT
   });
-
-  //console.log(process.env.REACT_APP_HASURA_GRAPHQL_ENDPOINT)
-  
   
   const errorLink = onError(({ graphQLErrors, networkError }) => {
     if (graphQLErrors) {
