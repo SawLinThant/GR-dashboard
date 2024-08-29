@@ -12,9 +12,14 @@ const CardTransactionList = () => {
     data: cardTransactionList,
     loading: fetchCardTransactionList,
     error: fetchCardTransactionError,
-  } = useQuery(GET_CARDS_TRANSACTION,{
-    pollInterval:500
-  });
+    refetch: transactionRefetch
+  } = useQuery(GET_CARDS_TRANSACTION);
+
+  useEffect(() => {
+    if (location.state?.refetch) {
+      transactionRefetch();
+    }
+  }, [location.state, transactionRefetch]);
 
   const column = cardTransactionColumn(navigate);
 

@@ -12,9 +12,14 @@ const CashinList = () => {
     data: cashinList,
     loading: fetchCashinList,
     error: fetchCashinError,
-  } = useQuery(GET_CASHIN_AMOUNT,{
-    pollInterval:500
-  });
+    refetch: cashinRefetch
+  } = useQuery(GET_CASHIN_AMOUNT);
+
+  useEffect(() => {
+    if (location.state?.refetch) {
+      cashinRefetch();
+    }
+  }, [location.state, cashinRefetch]);
 
   const column = cashinColumn(navigate);
 

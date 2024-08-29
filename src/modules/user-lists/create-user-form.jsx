@@ -163,7 +163,7 @@ const CreateUser = () => {
               </button>
               <button
                 type="button"
-                onClick={() => navigate("/dashboard")}
+                onClick={() => navigate("/dashboard",{ state: { refetch: true } })}
                 className=" bg-gray-200 transition min-w-24 duration-500 border-purple-900 text-white from-blue-900 to-gray-600 rounded font-light bg-gradient-to-l"
               >
                 Back

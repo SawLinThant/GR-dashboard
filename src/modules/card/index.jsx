@@ -16,9 +16,14 @@ const CardList = () => {
     data: cardList,
     loading: fetchCardList,
     error: fetchCardError,
-  }] = useLazyQuery(GET_CARDS,{
-    pollInterval:500
-  });
+    refetch: cardRefetch
+  }] = useLazyQuery(GET_CARDS);
+
+  useEffect(() => {
+    if (location.state?.refetch) {
+      cardRefetch();
+    }
+  }, [location.state, cardRefetch]);
 
   console.log(filter)
 

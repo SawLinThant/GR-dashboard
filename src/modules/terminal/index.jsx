@@ -11,15 +11,19 @@ import { terminalFilterOptions } from "../../lib/config";
 const TerminalList = () => {
   const [filter, setFilter] = useState('all');
   const navigate = useNavigate();
+
   const [getTerminals,{
     data: terminalList,
     loading: fetchTerminalList,
     error: fetchTerminalError,
-  }] = useLazyQuery(GET_TERMINALS,{
-    pollInterval:500
-  });
+    refetch: terminalRefetch
+  }] = useLazyQuery(GET_TERMINALS);
 
-  console.log(filter)
+  useEffect(() => {
+    if (location.state?.refetch) {
+      terminalRefetch();
+    }
+  }, [location.state, terminalRefetch]);
 
   const [getTerminalsByStatus,{data:terminalListByStatus,loading:fetchTerminalListByStatus}] = useLazyQuery(GET_TERMINAL_BY_STATUS)
   const terminalLists = terminalList ? terminalList.terminals : [];

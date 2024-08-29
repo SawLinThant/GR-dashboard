@@ -12,9 +12,14 @@ const FacilityServiceList = () => {
     data: facilityServiceList,
     loading: fetchFacilityServiceList,
     error: fetchFacilityServiceError,
-  } = useQuery(GET_FACILITY_SERIVCES,{
-    pollInterval:500
-  });
+    refetch: customerRefetch
+  } = useQuery(GET_FACILITY_SERIVCES);
+
+  useEffect(() => {
+    if (location.state?.refetch) {
+      customerRefetch();
+    }
+  }, [location.state, customerRefetch]);
 
   const column = facilityServiceColumn(navigate);
 

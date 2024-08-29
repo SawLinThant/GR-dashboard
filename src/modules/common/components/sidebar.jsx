@@ -22,7 +22,7 @@ const Sidebar = () => {
                     {SidebarRoutes.map((route) => {
                         return(
                             <div 
-                            onClick={() => navigate(route.path)}
+                            onClick={() => navigate(route.path,{ state: { refetch: true } })}
                             className="w-full h-12 flex flex-row items-center gap-4 pl-6 duration-10 hover:border hover:cursor-pointer hover:rounded-lg hover:border-white">
                                 <div className="text-white">{route.icon}</div>
                                 <p className="text-white">{route.label}</p>

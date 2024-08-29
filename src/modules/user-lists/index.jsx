@@ -15,9 +15,14 @@ const UserList = () => {
     data: customerList,
     loading: fetchCustomerList,
     error: fetchCustomerError,
-  }] = useLazyQuery(GET_CUSTOMERS,{
-    pollInterval:500
-  });
+    refetch: customerRefetch
+  }] = useLazyQuery(GET_CUSTOMERS);
+
+  useEffect(() => {
+    if (location.state?.refetch) {
+      customerRefetch();
+    }
+  }, [location.state, customerRefetch]);
 
   console.log(filter)
 
